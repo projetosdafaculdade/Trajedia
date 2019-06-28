@@ -8,6 +8,9 @@ public class Roupa {
     int idCategoria;
     int ativo;
 
+    public static Roupa instanciar(){
+        return new Roupa();
+    }
     public int getIdRoupa() {
         return idRoupa;
     }

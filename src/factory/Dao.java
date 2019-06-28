@@ -6,7 +6,7 @@ public class Dao{
 
     protected Connection conexao;
 
-    public Dao() {
+    public  Dao() {
         conexao = Conexao.getConexao();
     }
 

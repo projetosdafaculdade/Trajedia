@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import model.dao.RoupaDao;
 import model.vo.Roupa;
 import util.JPane;
+import util.Validar;
 
 public class RoupaController {
 
@@ -51,12 +52,18 @@ public class RoupaController {
     }
 
     public void adicionarRoupa() {
+        Roupa roupa = Roupa.instanciar();
         try {
-            System.out.println(JPane.input.STRING("Inserir", "Digite o nome da roupa"));
-            System.out.println(JPane.input.STRING("Inserir", "Apelido da roupa"));
-            System.out.println(JPane.input.STRING("Inserir", "Qualquer outra coisa vai"));
+            String nome = JPane.input.STRING("Inserir", "Digite o nome da roupa:");
+            Validar.continuar(nome);
+            double vlr = JPane.input.DOUBLE("Inserir", "Digite o preço da roupa:");
+            Validar.continuar(vlr);
+            Object[] objects = {"Teste","TESTE2","Teste"};
+            String idCategoria = JPane.select.gerarJOptionPane("Teste", nome,objects);
+            roupa.setNome(nome);
+            roupa.setVlr(vlr);
+            roupaDao.cadastrar(roupa);
         } catch (Exception e) {
         }
-
     }
 }

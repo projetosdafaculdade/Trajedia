@@ -12,16 +12,16 @@ import javax.swing.JOptionPane;
 import model.vo.Roupa;
 
 public class RoupaDao extends Dao implements DaoI<Roupa> {
-    
+
     @Override
     public int cadastrar(Roupa obj) {
-        String sql = "INSERT INTO ROUPA(VLR,IDCATEGORIA) VALUES(?,?)";
+        String sql = "INSERT INTO ROUPA(NOME,VLR,IDCATEGORIA) VALUES(?,?,?)";
         PreparedStatement stmt;
         try {
             stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setDouble(1, obj.getVlr());
-            stmt.setInt(2, obj.getIdRoupa());
-            stmt.setString(3, obj.getNome());
+            stmt.setString(1, obj.getNome());
+            stmt.setDouble(2, obj.getVlr());
+            stmt.setInt(3, obj.getIdCategoria());
             stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
@@ -31,16 +31,16 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
             System.out.println("ERRO:" + ex.getMessage());
         }
         return 0;
-        
+
     }
-    
+
     @Override
     public List<Roupa> listar() {
         String sql = "SELECT * FROM ROUPA ORDER BY IDROUPA DESC";
         PreparedStatement stmt;
         List<Roupa> roupas = new ArrayList<>();
         try {
-            
+
             stmt = conexao.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -58,7 +58,7 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
         }
         return roupas;
     }
-    
+
     @Override
     public boolean alterar(Roupa obj) {
         String sql = "UPDATE ROUPA IDCATEGORIA SET = ?, NOME = ?, VLR = ? WHERE ID = IDROUPA";
@@ -79,7 +79,7 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
         }
         return false;
     }
-    
+
     @Override
     public boolean deletar(int id) {
         String sql = "UPDATE ROUPA SET ATIVO = 0 WHERE IDCATEGORIA = " + id;
@@ -94,7 +94,7 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
         }
         return false;
     }
-    
+
     @Override
     public Roupa lerPorId(int id) {
         String sql = "SELECT * WHERE ROUPA ORDER BY IDROUPA DESC";
@@ -116,14 +116,14 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
         }
         return roupa;
     }
-    
+
     @Override
     public List<Roupa> pesquisar(String termo) {
         String sql = "SELECT * WHERE ROUPA ORDER BY IDROUPA DESC LIKE";
         PreparedStatement stmt;
         List<Roupa> roupas = new ArrayList<>();
         try {
-            
+
             stmt = conexao.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -141,5 +141,5 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
         }
         return roupas;
     }
-    
+
 }
