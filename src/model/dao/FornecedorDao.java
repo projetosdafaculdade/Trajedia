@@ -15,11 +15,7 @@ import java.util.List;
 import model.vo.Cliente;
 import model.vo.Fornecedor;
 
-/**
- *
- * @author Alunos
- */
-public class FornecedorDao extends Dao implements DaoI<Fornecedor>{
+public class FornecedorDao extends Dao implements DaoI<Fornecedor> {
 
     public FornecedorDao() {
         super();
@@ -29,35 +25,37 @@ public class FornecedorDao extends Dao implements DaoI<Fornecedor>{
     public List<Fornecedor> listar() {
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("select idfornecedor, razaosocial, telefone, idendereco from fornecedor"
+            stmt = conexao.prepareStatement("select idfornecedor, razaosocial, telefone, idendereco,ativo from fornecedor"
                     + " where ativo = 1 order by idfornecedor desc",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet result = stmt.executeQuery();
             List<Fornecedor> lista = new ArrayList<Fornecedor>();
             while (result.next()) {
                 Fornecedor f = new Fornecedor();
-                f.setIdFornecedor(result.getInt("idfornecedor"));
-                f.setRazaoSocial(result.getString("razaosocial"));
-                f.setTelefone(result.getInt("telefone"));
-                f.getEndereco().setIdEndereco(result.getInt("idendereco"));
+                f.setIdFornecedor(result.getInt("IDFORNECEDOR"));
+                f.setRazaoSocial(result.getString("RAZAOSOCIAL"));
+                f.setTelefone(result.getString("TELEFONE"));
+                EnderecoDao dao = new EnderecoDao();
+                f.setEndereco(dao.lerPorId(result.getInt("IDENDERECO")));
+                f.setAtivo(result.getInt("ATIVO"));
                 lista.add(f);
             }
             return lista;
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("ERRO: " + ex.getMessage());
             return null;
         }
     }
 
     @Override
     public int cadastrar(Fornecedor obj) {
-         try {
+        try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement(
-                    "insert into fornecedor(razaosocial, telefone, idendereco)"
-                    + " values(?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+                    "INSERT INTO FORNECEDOR(RAZAOSOCIAL, TELEFONE, IDENDERECO)"
+                    + " VALUES(?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
             stmt.setString(1, obj.getRazaoSocial());
-            stmt.setInt(2, obj.getTelefone());
+            stmt.setString(2, obj.getTelefone());
             stmt.setInt(3, obj.getEndereco().getIdEndereco());
             ResultSet rs;
             if (stmt.executeUpdate() > 0) {
@@ -80,7 +78,7 @@ public class FornecedorDao extends Dao implements DaoI<Fornecedor>{
             stmt = conexao.prepareStatement("update fornecedor"
                     + " set razaosocial = ?, telefone = ?, idendereco = ? where idfornecedor = ?");
             stmt.setString(1, obj.getRazaoSocial());
-            stmt.setInt(2, obj.getTelefone());
+            stmt.setString(2, obj.getTelefone());
             stmt.setInt(3, obj.getEndereco().getIdEndereco());
             stmt.setInt(4, obj.getIdFornecedor());
             return stmt.executeUpdate() > 0;
@@ -92,7 +90,7 @@ public class FornecedorDao extends Dao implements DaoI<Fornecedor>{
 
     @Override
     public boolean deletar(int id) {
-         try {
+        try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement("update fornecedor set ativo = 0 where idfornecedor = ?");
             stmt.setInt(1, id);
@@ -112,7 +110,7 @@ public class FornecedorDao extends Dao implements DaoI<Fornecedor>{
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String razaosocial = rs.getString("razaosocial");
-                Integer telefone = rs.getInt("telefone");
+                String telefone = rs.getString("telefone");
                 Integer idEndereco = rs.getInt("idendereco");
                 Fornecedor fornecedor = new Fornecedor();
                 fornecedor.setRazaoSocial(razaosocial);
@@ -154,7 +152,7 @@ public class FornecedorDao extends Dao implements DaoI<Fornecedor>{
                 Fornecedor fornecedor = new Fornecedor();
                 fornecedor.setIdFornecedor(rs.getInt("idfornecedor"));
                 fornecedor.setRazaoSocial(rs.getString("razaosocial"));
-                fornecedor.setTelefone(rs.getInt("telefone"));
+                fornecedor.setTelefone(rs.getString("telefone"));
                 fornecedor.getEndereco().setIdEndereco(rs.getInt("idendereco"));
                 fornecedor.getEndereco().setNumero(rs.getString("numero"));
                 fornecedor.getEndereco().setRua(rs.getString("rua"));
@@ -172,7 +170,5 @@ public class FornecedorDao extends Dao implements DaoI<Fornecedor>{
             return null;
         }
     }
-    
-   
-    
+
 }

@@ -14,18 +14,20 @@ public class Fornecedor {
     private int idFornecedor;
     private String razaoSocial;
     private Endereco endereco;
-    private int telefone;
+    private String telefone;
     private int ativo;
 
     public Fornecedor() {
+        this.endereco = new Endereco();
     }
 
-    public Fornecedor(int idFornecedor, String razaoSocial, Endereco endereco, int telefone, int ativo) {
+    public Fornecedor(int idFornecedor, String razaoSocial, Endereco endereco, String telefone, int ativo) {
         this.idFornecedor = idFornecedor;
         this.razaoSocial = razaoSocial;
         this.endereco = endereco;
         this.telefone = telefone;
         this.ativo = ativo;
+        this.endereco = new Endereco();
     }
 
     public int getIdFornecedor() {
@@ -52,11 +54,11 @@ public class Fornecedor {
         this.endereco = endereco;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
