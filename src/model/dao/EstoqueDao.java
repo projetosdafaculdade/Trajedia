@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.dao;
 
 import factory.Dao;
@@ -15,32 +10,33 @@ import java.util.List;
 import model.vo.Cliente;
 import model.vo.Estoque;
 
-/**
- *
- * @author Alunos
- */
 public class EstoqueDao extends Dao implements DaoI<Estoque> {
 
     public EstoqueDao() {
         super();
     }
-    
-    
 
     @Override
     public List<Estoque> listar() {
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("select idestoque, quantidade, idroupa from estoque"
-                    + " where ativo = 1 order by idestoque desc",
+            stmt = conexao.prepareStatement("SELECT\n" +
+"    IDROUPA  \n" +
+"    , SUM(QUANTIDADE) AS QUANTIDADE\n" +
+"FROM \n" +
+"	ESTOQUE \n" +
+"GROUP BY \n" +
+"    IDROUPA\n" +
+"ORDER BY\n" +
+"	IDROUPA ASC;",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet result = stmt.executeQuery();
             List<Estoque> lista = new ArrayList<Estoque>();
             while (result.next()) {
                 Estoque e = new Estoque();
-                e.setIdEstoque(result.getInt("idestoque"));
                 e.setQuantidade(result.getInt("quantidade"));
-                e.getRoupa().setIdRoupa(result.getInt("idroupa"));
+                RoupaDao dao = new RoupaDao();
+                e.setRoupa(dao.lerPorId(result.getInt("idroupa")));
                 lista.add(e);
             }
             return lista;
@@ -71,7 +67,7 @@ public class EstoqueDao extends Dao implements DaoI<Estoque> {
             System.out.println(ex.getMessage());
             return 0;
         }
-    } 
+    }
 
     @Override
     public boolean alterar(Estoque obj) {
@@ -104,7 +100,7 @@ public class EstoqueDao extends Dao implements DaoI<Estoque> {
 
     @Override
     public Estoque lerPorId(int id) {
-         try {
+        try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement("select idestoque, quantidade, idroupa from estoque where ativo = 1 and idestoque = ?");
             stmt.setInt(1, id);
@@ -128,7 +124,7 @@ public class EstoqueDao extends Dao implements DaoI<Estoque> {
 
     @Override
     public List<Estoque> pesquisar(String termo) {
-       List<Estoque> estoques = new ArrayList<>();
+        List<Estoque> estoques = new ArrayList<>();
         try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement("select idestoque, quantidade, idroupa from estoque"

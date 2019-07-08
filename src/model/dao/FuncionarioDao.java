@@ -36,7 +36,7 @@ public class FuncionarioDao extends Dao implements DaoI<Funcionario>{
             List<Funcionario> lista = new ArrayList<Funcionario>();
             while (result.next()) {
                 Funcionario f = new Funcionario();
-                f.setIdFuncionario(result.getInt("idcategoria"));
+                f.setIdFuncionario(result.getInt("idfuncionario"));
                 f.setUsuario(result.getString("usuario"));
                 f.setSenha(result.getString("senha"));
                 lista.add(f);

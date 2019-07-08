@@ -46,8 +46,8 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
     public List<Roupa> listar() {
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("select idroupa, nome, vlr, idcategoria from roupa"
-                    + " where ativo = 1 order by idroupa desc",
+            stmt = conexao.prepareStatement("select idroupa, nome, vlr, idcategoria, ativo from roupa"
+                    + " where ativo = 1 order by idroupa asc",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet result = stmt.executeQuery();
             List<Roupa> lista = new ArrayList<Roupa>();
@@ -56,7 +56,9 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
                 r.setIdRoupa(result.getInt("idroupa"));
                 r.setNome(result.getString("nome"));
                 r.setVlr(result.getDouble("vlr"));
-                r.getCategoria().setIdCategoria(result.getInt("idcategoria"));
+                CategoriaDao categoriaDao = new CategoriaDao();
+                r.setCategoria(categoriaDao.lerPorId(result.getInt("idcategoria")));
+                r.setAtivo(result.getInt("ATIVO"));
                 lista.add(r);
             }
             return lista;
@@ -110,7 +112,8 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
                 Roupa roupa = new Roupa();
                 roupa.setNome(nome);
                 roupa.setVlr(valor);
-                roupa.getCategoria().setIdCategoria(idCategoria);
+                CategoriaDao categoriaDao = new CategoriaDao();
+                roupa.setCategoria(categoriaDao.lerPorId(rs.getInt("idcategoria")));
                 roupa.setIdRoupa(id);
                 return roupa;
             }

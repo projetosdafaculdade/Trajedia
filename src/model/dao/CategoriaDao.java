@@ -28,14 +28,13 @@ public class CategoriaDao extends Dao implements DaoI<Categoria>{
     public List<Categoria> listar() {
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("select idcategoria, nome from categoria"
-                    + " where ativo = 1 order by idcategoria desc",
+            stmt = conexao.prepareStatement("select IDCATEGORIA, nome from categoria",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet result = stmt.executeQuery();
             List<Categoria> lista = new ArrayList<Categoria>();
             while (result.next()) {
                 Categoria c = new Categoria();
-                c.setIdCategoria(result.getInt("idcategoria"));
+                c.setIdCategoria(result.getInt("IDCATEGORIA"));
                 c.setNome(result.getString("nome"));
                 lista.add(c);
             }
@@ -100,7 +99,7 @@ public class CategoriaDao extends Dao implements DaoI<Categoria>{
     public Categoria lerPorId(int id) {
          try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("select idcategoria, nome from categoria where ativo = 1 and idcategoria = ?");
+            stmt = conexao.prepareStatement("select idcategoria, nome from categoria where idcategoria = ?");
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {

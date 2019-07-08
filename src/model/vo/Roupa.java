@@ -9,6 +9,7 @@ public class Roupa {
     private int ativo;
 
     public Roupa() {
+        this.categoria = new Categoria();
     }
 
     public Roupa(int idRoupa, String nome, double vlr, Categoria categoria, int ativo) {
@@ -17,6 +18,7 @@ public class Roupa {
         this.vlr = vlr;
         this.categoria = categoria;
         this.ativo = ativo;
+        this.categoria = new Categoria();
     }
 
     public int getIdRoupa() {
@@ -63,9 +65,5 @@ public class Roupa {
     public String toString() {
         return "Roupa{" + "idRoupa=" + idRoupa + ", nome=" + nome + ", vlr=" + vlr + ", categoria=" + categoria + ", ativo=" + ativo + '}';
     }
-
-  
-
-    
 
 }
