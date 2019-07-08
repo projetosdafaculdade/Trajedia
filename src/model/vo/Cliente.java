@@ -1,11 +1,27 @@
 package model.vo;
 
 public class Cliente {
-int idCliente;
-String nome;
-int cpf;
-String telefone;
-int idEndereco;
+
+    private int idCliente;
+    private String nome;
+    private String cpf;
+    private String telefone;
+    private Endereco endereco;
+    private int ativo;
+
+    public Cliente() {
+        endereco = new Endereco();
+    }
+
+    public Cliente(int idCliente, String nome, String cpf, String telefone, Endereco endereco, int ativo) {
+        this.idCliente = idCliente;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.ativo = ativo;
+        endereco = new Endereco();
+    }
 
     public int getIdCliente() {
         return idCliente;
@@ -23,11 +39,11 @@ int idEndereco;
         this.nome = nome;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
@@ -39,13 +55,25 @@ int idEndereco;
         this.telefone = telefone;
     }
 
-    public int getIdEndereco() {
-        return idEndereco;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setIdEndereco(int idEndereco) {
-        this.idEndereco = idEndereco;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" + "idCliente=" + idCliente + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", endereco=" + endereco + '}';
+    }
 
 }

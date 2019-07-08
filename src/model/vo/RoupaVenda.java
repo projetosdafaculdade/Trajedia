@@ -2,8 +2,18 @@ package model.vo;
 
 public class RoupaVenda {
 
-    int idRoupaVenda;
-    int desconto;
+    private int idRoupaVenda;
+    private int desconto;
+    private int ativo;
+
+    public RoupaVenda() {
+    }
+
+    public RoupaVenda(int idRoupaVenda, int desconto, int ativo) {
+        this.idRoupaVenda = idRoupaVenda;
+        this.desconto = desconto;
+        this.ativo = ativo;
+    }
 
     public int getIdRoupaVenda() {
         return idRoupaVenda;
@@ -19,6 +29,19 @@ public class RoupaVenda {
 
     public void setDesconto(int desconto) {
         this.desconto = desconto;
+    }
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public String toString() {
+        return "RoupaVenda{" + "idRoupaVenda=" + idRoupaVenda + ", desconto=" + desconto + '}';
     }
 
 }

@@ -1,9 +1,21 @@
 package model.vo;
 
 public class Traje {
-    int idTraje;
-    int desconto;
-    int idFornecedor;
+
+    private int idTraje;
+    private int desconto;
+    private Fornecedor fornecedor;
+    private int ativo;
+
+    public Traje() {
+    }
+
+    public Traje(int idTraje, int desconto, Fornecedor fornecedor, int ativo) {
+        this.idTraje = idTraje;
+        this.desconto = desconto;
+        this.fornecedor = fornecedor;
+        this.ativo = ativo;
+    }
 
     public int getIdTraje() {
         return idTraje;
@@ -21,12 +33,25 @@ public class Traje {
         this.desconto = desconto;
     }
 
-    public int getIdFornecedor() {
-        return idFornecedor;
+    public Fornecedor getFornecedor() {
+        return fornecedor;
     }
 
-    public void setIdFornecedor(int idFornecedor) {
-        this.idFornecedor = idFornecedor;
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public String toString() {
+        return "Traje{" + "idTraje=" + idTraje + ", desconto=" + desconto + ", fornecedor=" + fornecedor + '}';
     }
 
 }

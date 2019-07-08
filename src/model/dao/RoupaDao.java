@@ -13,133 +13,143 @@ import model.vo.Roupa;
 
 public class RoupaDao extends Dao implements DaoI<Roupa> {
 
+    public RoupaDao() {
+        super();
+    }
+
     @Override
     public int cadastrar(Roupa obj) {
-        String sql = "INSERT INTO ROUPA(NOME,VLR,IDCATEGORIA) VALUES(?,?,?)";
-        PreparedStatement stmt;
         try {
-            stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement(
+                    "insert into roupa(nome, vlr, idcategoria)"
+                    + " values(?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
             stmt.setString(1, obj.getNome());
             stmt.setDouble(2, obj.getVlr());
-            stmt.setInt(3, obj.getIdCategoria());
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
+            stmt.setInt(3, obj.getCategoria().getIdCategoria());
+            ResultSet rs;
+            if (stmt.executeUpdate() > 0) {
+                rs = stmt.getGeneratedKeys();
+                rs.next();
                 return rs.getInt(1);
+            } else {
+                return 0;
             }
         } catch (SQLException ex) {
-            System.out.println("ERRO:" + ex.getMessage());
+            System.out.println(ex.getMessage());
+            return 0;
         }
-        return 0;
 
     }
 
     @Override
     public List<Roupa> listar() {
-        String sql = "SELECT * FROM ROUPA ORDER BY IDROUPA DESC";
-        PreparedStatement stmt;
-        List<Roupa> roupas = new ArrayList<>();
         try {
-
-            stmt = conexao.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Roupa temp = new Roupa();
-                temp.setIdRoupa(rs.getInt("IDROUPA"));
-                temp.setAtivo(rs.getInt("ATIVO"));
-                temp.setNome(rs.getString("NOME"));
-                temp.setIdCategoria(rs.getInt("IDCATEGORIA"));
-                temp.setVlr(rs.getDouble("VLR"));
-                roupas.add(temp);
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement("select idroupa, nome, vlr, idcategoria from roupa"
+                    + " where ativo = 1 order by idroupa desc",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+            ResultSet result = stmt.executeQuery();
+            List<Roupa> lista = new ArrayList<Roupa>();
+            while (result.next()) {
+                Roupa r = new Roupa();
+                r.setIdRoupa(result.getInt("idroupa"));
+                r.setNome(result.getString("nome"));
+                r.setVlr(result.getDouble("vlr"));
+                r.getCategoria().setIdCategoria(result.getInt("idcategoria"));
+                lista.add(r);
             }
+            return lista;
         } catch (SQLException ex) {
-            System.out.println("ERRO:" + ex.getMessage());
-            JOptionPane.showMessageDialog(null, "Erro ao listar Roupa, contate um Administrador do Sistema!");
+            System.out.println(ex.getMessage());
+            return null;
         }
-        return roupas;
     }
 
     @Override
     public boolean alterar(Roupa obj) {
-        String sql = "UPDATE ROUPA IDCATEGORIA SET = ?, NOME = ?, VLR = ? WHERE ID = IDROUPA";
-        PreparedStatement stmt;
-        try {
-            stmt = conexao.prepareStatement(sql);
-            stmt.setInt(1, obj.getIdCategoria());
-            stmt.setString(2, obj.getNome());
-            stmt.setString(3, obj.getNome());
-            stmt.setDouble(4, obj.getVlr());
-            stmt.setInt(5, obj.getIdRoupa());
-            if (stmt.executeUpdate() > 0) {
-                return true;
-            }
+       try {
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement("update roupa"
+                    + " set nome = ?, vlr = ?, idcategoria = ? where idroupa = ?");
+            stmt.setString(1, obj.getNome());
+            stmt.setDouble(2, obj.getVlr());
+            stmt.setInt(3, obj.getCategoria().getIdCategoria());
+            stmt.setInt(4, obj.getIdRoupa());
+            return stmt.executeUpdate() > 0;
         } catch (SQLException ex) {
-            System.out.println("ERRO:" + ex.getSQLState());
-            JOptionPane.showMessageDialog(null, "Erro ao alterar roupa, contate um Administrador do Sistema!");
+            System.out.println(ex.getMessage());
+            return false;
         }
-        return false;
     }
 
     @Override
     public boolean deletar(int id) {
-        String sql = "UPDATE ROUPA SET ATIVO = 0 WHERE IDCATEGORIA = " + id;
-        PreparedStatement stmt;
-        try {
-            stmt = conexao.prepareStatement(sql);
-            if (stmt.executeUpdate() > 0) {
-                return true;
-            }
+       try {
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement("update roupa set ativo = 0 where idroupa = ?");
+            stmt.setInt(1, id);
+            return stmt.executeUpdate() > 0;
         } catch (SQLException ex) {
-            System.out.println("ERRO:" + ex.getMessage());
+            System.out.println(ex.getMessage());
+            return false;
         }
-        return false;
     }
 
     @Override
     public Roupa lerPorId(int id) {
-        String sql = "SELECT * WHERE ROUPA ORDER BY IDROUPA DESC";
-        PreparedStatement stmt;
-        Roupa roupa = new Roupa();
         try {
-            stmt = conexao.prepareStatement(sql);
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement("select idroupa, nome, vlr, idcategoria from roupa where ativo = 1 and idroupa = ?");
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                roupa.setIdRoupa(rs.getInt("IDROUPA"));
-                roupa.setAtivo(rs.getInt("ATIVO"));
-                roupa.setNome(rs.getString("NOME"));
-                roupa.setIdCategoria(rs.getInt("IDCATEGORIA"));
-                roupa.setVlr(rs.getDouble("VLR"));
+            while (rs.next()) {
+                String nome = rs.getString("NOME");
+                Double valor = rs.getDouble("vlr");
+                Integer idCategoria = rs.getInt("idcategoria");
+                Roupa roupa = new Roupa();
+                roupa.setNome(nome);
+                roupa.setVlr(valor);
+                roupa.getCategoria().setIdCategoria(idCategoria);
+                roupa.setIdRoupa(id);
+                return roupa;
             }
+            return null;
+
         } catch (SQLException ex) {
-            System.out.println("ERRO:" + ex.getMessage());
-            JOptionPane.showMessageDialog(null, "Erro ao listar Roupa, contate um Administrador do Sistema!");
+            System.out.println(ex.getMessage());
+            return null;
         }
-        return roupa;
     }
 
     @Override
     public List<Roupa> pesquisar(String termo) {
-        String sql = "SELECT * WHERE ROUPA ORDER BY IDROUPA DESC LIKE";
-        PreparedStatement stmt;
         List<Roupa> roupas = new ArrayList<>();
         try {
-
-            stmt = conexao.prepareStatement(sql);
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement("select r.idroupa, r.nome, r.vlr, r.idcategoria, c.nomeC"
+                    + " from roupa r left join categoria c on r.idcategoria = c.idcategoria"
+                    + " where ativo = 1 and (r.idroupa = ? or r.nome like ? or"
+                    + " r.vlr = ? or c.nomeC = ?");
+            stmt.setString(1, termo);
+            stmt.setString(2, termo + "%");
+            stmt.setString(3, termo);
+            stmt.setString(4, termo);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Roupa temp = new Roupa();
-                temp.setIdRoupa(rs.getInt("IDROUPA"));
-                temp.setIdCategoria(rs.getInt(("IDCATEGORIA")));
-                temp.setAtivo(rs.getInt("ATIVO"));
-                temp.setNome(rs.getString("NOME"));
-                temp.setVlr(rs.getDouble("VLR"));
-                roupas.add(temp);
+                Roupa roupa = new Roupa();
+                roupa.setIdRoupa(rs.getInt("idroupa"));
+                roupa.setNome(rs.getString("nome"));
+                roupa.setVlr(rs.getDouble("vlr"));
+                roupa.getCategoria().setNome(rs.getString("nomeC"));
+                roupas.add(roupa);
             }
+
+            return roupas;
         } catch (SQLException ex) {
-            System.out.println("ERRO:" + ex.getMessage());
-            JOptionPane.showMessageDialog(null, "Erro ao listar Roupa, contate um Administrador do Sistema!");
+            System.out.println(ex.getMessage());
+            return null;
         }
-        return roupas;
     }
 
 }

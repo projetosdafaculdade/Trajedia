@@ -2,14 +2,26 @@ package model.vo;
 
 public class Endereco {
 
-    int idEndereco;
-    String numero;
-    String rua;
-    String bairro;
-    String cidade;
-    String estado;
-    String uf;
-    String pais;
+    private int idEndereco;
+    private String numero;
+    private String rua;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String uf;
+    private String pais;
+    private int ativo;
+
+    public Endereco() {
+    }
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
 
     public int getIdEndereco() {
         return idEndereco;
@@ -73,6 +85,11 @@ public class Endereco {
 
     public void setPais(String pais) {
         this.pais = pais;
+    }
+
+    @Override
+    public String toString() {
+        return "Endereco{" + "idEndereco=" + idEndereco + ", numero=" + numero + ", rua=" + rua + ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado + ", uf=" + uf + ", pais=" + pais + '}';
     }
 
 }

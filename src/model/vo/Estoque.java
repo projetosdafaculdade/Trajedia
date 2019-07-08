@@ -1,9 +1,21 @@
 package model.vo;
 
 public class Estoque {
-    int idEstoque;
-    int quantidade;
-    int idRoupa;
+
+    private int idEstoque;
+    private int quantidade;
+    private Roupa roupa;
+    private int ativo;
+
+    public Estoque() {
+    }
+
+    public Estoque(int idEstoque, int quantidade, Roupa roupa, int ativo) {
+        this.idEstoque = idEstoque;
+        this.quantidade = quantidade;
+        this.roupa = roupa;
+        this.ativo = ativo;
+    }
 
     public int getIdEstoque() {
         return idEstoque;
@@ -21,12 +33,25 @@ public class Estoque {
         this.quantidade = quantidade;
     }
 
-    public int getIdRoupa() {
-        return idRoupa;
+    public Roupa getRoupa() {
+        return roupa;
     }
 
-    public void setIdRoupa(int idRoupa) {
-        this.idRoupa = idRoupa;
+    public void setRoupa(Roupa roupa) {
+        this.roupa = roupa;
     }
-    
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public String toString() {
+        return "Estoque{" + "idEstoque=" + idEstoque + ", quantidade=" + quantidade + ", roupa=" + roupa + '}';
+    }
+
 }

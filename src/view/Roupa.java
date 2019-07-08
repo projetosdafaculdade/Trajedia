@@ -5,9 +5,10 @@ import controller.RoupaController;
 public class Roupa extends javax.swing.JFrame {
 
     RoupaController roupaController;
+
     public Roupa() {
         initComponents();
-        roupaController = new RoupaController(btnEditar, btnFechar, btnRemover, btnAdicionar, tableRoupa);
+        roupaController = new RoupaController(this,btnEditar, btnFechar, btnRemover, btnAdicionar, tableRoupa);
         lerTabela();
     }
 
@@ -23,7 +24,8 @@ public class Roupa extends javax.swing.JFrame {
         btnEditar = new javax.swing.JButton();
         btnAdicionar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestão de Roupa");
 
         tableRoupa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -53,8 +55,18 @@ public class Roupa extends javax.swing.JFrame {
         });
 
         btnRemover.setText("-");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnAdicionar.setText("+");
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
@@ -117,12 +129,20 @@ public class Roupa extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
-        // TODO add your handling code here:
+        roupaController.fechar();        // TODO add your handling code here:
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         roupaController.adicionarRoupa();
     }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        roupaController.editarRoupa();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        roupaController.removerRoupa();
+    }//GEN-LAST:event_btnRemoverActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -154,9 +174,7 @@ public class Roupa extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void lerTabela() {
-        roupaController.listarNaTabelaInicial();
-        }
-
-      
+        roupaController.listarNaTabela();
     }
 
+}

@@ -1,13 +1,29 @@
 package model.vo;
 
 public class Permissao {
-    int idPermissao;
-    int idTela;
-    int visualizar;
-    int editar;
-    int cadastrar;
-    int deletar;
-    int idFuncionario;
+
+    private int idPermissao;
+    private Tela tela;
+    private int visualizar;
+    private int editar;
+    private int cadastrar;
+    private int deletar;
+    private Funcionario funcionario;
+    private int ativo;
+
+    public Permissao() {
+    }
+
+    public Permissao(int idPermissao, Tela tela, int visualizar, int editar, int cadastrar, int deletar, Funcionario funcionario, int ativo) {
+        this.idPermissao = idPermissao;
+        this.tela = tela;
+        this.visualizar = visualizar;
+        this.editar = editar;
+        this.cadastrar = cadastrar;
+        this.deletar = deletar;
+        this.funcionario = funcionario;
+        this.ativo = ativo;
+    }
 
     public int getIdPermissao() {
         return idPermissao;
@@ -17,12 +33,12 @@ public class Permissao {
         this.idPermissao = idPermissao;
     }
 
-    public int getIdTela() {
-        return idTela;
+    public Tela getTela() {
+        return tela;
     }
 
-    public void setIdTela(int idTela) {
-        this.idTela = idTela;
+    public void setTela(Tela tela) {
+        this.tela = tela;
     }
 
     public int getVisualizar() {
@@ -57,12 +73,27 @@ public class Permissao {
         this.deletar = deletar;
     }
 
-    public int getIdFuncionario() {
-        return idFuncionario;
+    public Funcionario getFuncionario() {
+        return funcionario;
     }
 
-    public void setIdFuncionario(int idFuncionario) {
-        this.idFuncionario = idFuncionario;
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public String toString() {
+        return "Permissao{" + "idPermissao=" + idPermissao + ", tela=" + tela + ", visualizar=" + visualizar + ", editar=" + editar + ", cadastrar=" + cadastrar + ", deletar=" + deletar + ", funcionario=" + funcionario + ", ativo=" + ativo + '}';
     }
     
+    
+
 }

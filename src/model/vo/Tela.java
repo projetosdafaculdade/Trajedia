@@ -1,9 +1,21 @@
 package model.vo;
 
 public class Tela {
-int idTela;
-String instancia;
-int numeroDaTela;
+
+    private int idTela;
+    private String instancia;
+    private int numeroDaTela;
+    private int ativo;
+
+    public Tela() {
+    }
+
+    public Tela(int idTela, String instancia, int numeroDaTela, int ativo) {
+        this.idTela = idTela;
+        this.instancia = instancia;
+        this.numeroDaTela = numeroDaTela;
+        this.ativo = ativo;
+    }
 
     public int getIdTela() {
         return idTela;
@@ -27,6 +39,19 @@ int numeroDaTela;
 
     public void setNumeroDaTela(int numeroDaTela) {
         this.numeroDaTela = numeroDaTela;
+    }
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public String toString() {
+        return "Tela{" + "idTela=" + idTela + ", instancia=" + instancia + ", numeroDaTela=" + numeroDaTela + '}';
     }
 
 }

@@ -2,8 +2,16 @@ package model.vo;
 
 public class Login {
 
-    String login;
-    String senha;
+    private String login;
+    private String senha;
+
+    public Login() {
+    }
+
+    public Login(String login, String senha) {
+        this.login = login;
+        this.senha = senha;
+    }
 
     public String getLogin() {
         return login;
@@ -20,5 +28,12 @@ public class Login {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    @Override
+    public String toString() {
+        return "Login{" + "login=" + login + ", senha=" + senha + '}';
+    }
+
+   
 
 }

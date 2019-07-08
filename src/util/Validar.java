@@ -15,9 +15,18 @@ public class Validar {
 
     static boolean DOUBLE(String string) {
         try {
-            double numero = Double.parseDouble(string);
+            double d = Double.parseDouble(string.replace(",", "."));
             return true;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    static boolean INT(String string) {
+        try {
+            Integer d = Integer.parseInt(string);
+            return true;
+        } catch (NumberFormatException e) {
             return false;
         }
     }
@@ -28,10 +37,24 @@ public class Validar {
         }
     }
 
-    public static void continuar(Double doubles) {
-        if (doubles == null) {
-          doubles = doubles * 0;
+    public static void continuar(Integer string) {
+        if (string == null) {
+            string = string * 0;
         }
     }
 
+    public static void continuar(Double doubles) {
+        if (doubles == null) {
+            doubles = doubles * 0;
+        }
+    }
+
+    public static boolean CPF(String string) {
+        try {
+            Integer d = Integer.parseInt(string.replaceAll("-", ""));
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

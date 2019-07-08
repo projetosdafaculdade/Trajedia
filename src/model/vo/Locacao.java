@@ -4,13 +4,28 @@ import java.util.Date;
 
 public class Locacao {
 
-    int idLocacao;
-    Date dataLocacao;
-    Date dataEvento;
-    Date dateEvolucao;
-    double vlrTotal;
-    int idFuncionario;
-    int tipoDeLocacao;
+    private int idLocacao;
+    private Date dataLocacao;
+    private Date dataEvento;
+    private Date dataDevolucao;
+    private double vlrTotal;
+    private Funcionario funcionario;
+    private int tipoDeLocacao;
+    private int ativo;
+
+    public Locacao() {
+    }
+
+    public Locacao(int idLocacao, Date dataLocacao, Date dataEvento, Date dataDevolucao, double vlrTotal, Funcionario funcionario, int tipoDeLocacao, int ativo) {
+        this.idLocacao = idLocacao;
+        this.dataLocacao = dataLocacao;
+        this.dataEvento = dataEvento;
+        this.dataDevolucao = dataDevolucao;
+        this.vlrTotal = vlrTotal;
+        this.funcionario = funcionario;
+        this.tipoDeLocacao = tipoDeLocacao;
+        this.ativo = ativo;
+    }
 
     public int getIdLocacao() {
         return idLocacao;
@@ -36,12 +51,12 @@ public class Locacao {
         this.dataEvento = dataEvento;
     }
 
-    public Date getDateEvolucao() {
-        return dateEvolucao;
+    public Date getDataDevolucao() {
+        return dataDevolucao;
     }
 
-    public void setDateEvolucao(Date dateEvolucao) {
-        this.dateEvolucao = dateEvolucao;
+    public void setDataDevolucao(Date dataDevolucao) {
+        this.dataDevolucao = dataDevolucao;
     }
 
     public double getVlrTotal() {
@@ -52,12 +67,12 @@ public class Locacao {
         this.vlrTotal = vlrTotal;
     }
 
-    public int getIdFuncionario() {
-        return idFuncionario;
+    public Funcionario getFuncionario() {
+        return funcionario;
     }
 
-    public void setIdFuncionario(int idFuncionario) {
-        this.idFuncionario = idFuncionario;
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 
     public int getTipoDeLocacao() {
@@ -67,5 +82,23 @@ public class Locacao {
     public void setTipoDeLocacao(int tipoDeLocacao) {
         this.tipoDeLocacao = tipoDeLocacao;
     }
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
+    
+    @Override
+    public String toString() {
+        return "Locacao{" + "idLocacao=" + idLocacao + ", dataLocacao=" + dataLocacao + ", dataEvento=" + dataEvento + ", dateEvolucao=" + dataDevolucao + ", vlrTotal=" + vlrTotal + ", funcionario=" + funcionario + ", tipoDeLocacao=" + tipoDeLocacao + '}';
+    }
+
+   
+    
+
+   
 
 }
