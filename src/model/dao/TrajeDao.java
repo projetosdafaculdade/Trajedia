@@ -53,10 +53,11 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
         try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement(
-                    "insert into traje(desconto, idfornecedor)"
+                    "insert into traje(desconto, idfornecedor, nome)"
                     + " values(?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, obj.getDesconto());
             stmt.setInt(2, obj.getFornecedor().getIdFornecedor());
+            stmt.setString(3, obj.getNome());
             ResultSet rs;
             if (stmt.executeUpdate() > 0) {
                 rs = stmt.getGeneratedKeys();

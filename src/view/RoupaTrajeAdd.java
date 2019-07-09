@@ -1,23 +1,20 @@
 package view;
 
-import controller.AdicionarRoupaTrajeController;
+public class RoupaTrajeAdd extends javax.swing.JDialog {
 
-public class AdicionarRoupaTraje extends javax.swing.JFrame {
-
-    AdicionarRoupaTrajeController AdicionarRoupaTrajeController;
-
-    public AdicionarRoupaTraje() {
+    public RoupaTrajeAdd(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-        AdicionarRoupaTrajeController = new AdicionarRoupaTrajeController(btnAdicionar, btnAdicionarRoupa, btnFechar, btnRemoverRoupa, tableAdicionarRoupaTraje, jtfDesconto, jtfNomeTraje, this);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnAdicionar1 = new javax.swing.JToggleButton();
+        jtfDesconto = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableAdicionarRoupaTraje = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnAdicionar = new javax.swing.JToggleButton();
         btnFechar = new javax.swing.JButton();
@@ -27,17 +24,8 @@ public class AdicionarRoupaTraje extends javax.swing.JFrame {
         btnAdicionarRoupa = new javax.swing.JButton();
         btnRemoverRoupa = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jtfDesconto = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
 
-        btnAdicionar1.setText("Adicionar");
-        btnAdicionar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdicionar1ActionPerformed(evt);
-            }
-        });
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tableAdicionarRoupaTraje.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -56,6 +44,8 @@ public class AdicionarRoupaTraje extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tableAdicionarRoupaTraje);
+
+        jLabel3.setText("Desconto");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -117,8 +107,6 @@ public class AdicionarRoupaTraje extends javax.swing.JFrame {
 
         jLabel2.setText("Roupa:");
 
-        jLabel3.setText("Desconto");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,7 +134,7 @@ public class AdicionarRoupaTraje extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,28 +160,23 @@ public class AdicionarRoupaTraje extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
-    private void btnAdicionarRoupaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarRoupaActionPerformed
-    AdicionarRoupaTrajeController.adicionarRoupa();
-    }//GEN-LAST:event_btnAdicionarRoupaActionPerformed
-
-    private void btnAdicionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionar1ActionPerformed
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAdicionar1ActionPerformed
+    }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnAdicionar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionar2ActionPerformed
-      AdicionarRoupaTrajeController.criarTraje();
+        AdicionarRoupaTrajeController.criarTraje();
     }//GEN-LAST:event_btnAdicionar2ActionPerformed
+
+    private void btnAdicionarRoupaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarRoupaActionPerformed
+        AdicionarRoupaTrajeController.adicionarRoupa();
+    }//GEN-LAST:event_btnAdicionarRoupaActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -204,19 +187,25 @@ public class AdicionarRoupaTraje extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdicionarRoupaTraje.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RoupaTrajeAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdicionarRoupaTraje().setVisible(true);
+                RoupaTrajeAdd dialog = new RoupaTrajeAdd(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnAdicionar;
-    private javax.swing.JToggleButton btnAdicionar1;
     private javax.swing.JToggleButton btnAdicionar2;
     private javax.swing.JButton btnAdicionarRoupa;
     private javax.swing.JButton btnFechar;

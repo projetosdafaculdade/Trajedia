@@ -3,6 +3,7 @@ package model.vo;
 public class Traje {
 
     private int idTraje;
+    private String nome;
     private int desconto;
     private Fornecedor fornecedor;
     private int ativo;
@@ -17,6 +18,15 @@ public class Traje {
         this.ativo = ativo;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    
     public int getIdTraje() {
         return idTraje;
     }
