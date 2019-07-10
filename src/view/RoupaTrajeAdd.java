@@ -172,7 +172,7 @@ public class RoupaTrajeAdd extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarTrajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarTrajeActionPerformed
-        // TODO add your handling code here:
+      AdicionarRoupaTrajeController.cadastrar();
     }//GEN-LAST:event_btnAdicionarTrajeActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed

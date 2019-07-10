@@ -71,7 +71,7 @@ public class AdicionarRoupaTrajeController {
             model.removeRow(qtd - i - 1);
         }
         model = (DefaultTableModel) tableAdicionarRoupaTraje.getModel();
-        for (model.vo.Roupa roupa : listarRoupas()) {
+        for (model.vo.Roupa roupa : roupasAdicionadas) {
             Object[] linha = {
                 roupa.getIdRoupa(),
                 roupa.getNome(),
@@ -84,8 +84,8 @@ public class AdicionarRoupaTrajeController {
 
     public void adicionarRoupa() {
         if (traje != null) {
-            List<Roupa> roupasListadas = new ArrayList<>();
-            roupasListadas = roupaDao.listar();
+            roupaDao = new RoupaDao();
+            List<Roupa> roupasListadas = roupaDao.listar();
             //DEFININDO UMA ROUPA
             SelectOptions selectOptions = new SelectOptions();
             for (Roupa roupa : roupasListadas) {
@@ -175,23 +175,12 @@ public class AdicionarRoupaTrajeController {
     }
 
     public void cadastrar() {
-        RoupaTraje roupaTraje = new RoupaTraje();
-        RoupaDao roupaDao = new RoupaDao();
-        List<Roupa> roupas = roupaDao.listar();
-        //DEFININDO UMA ROUPA
-        SelectOptions selectOptions = new SelectOptions();
-        for (Roupa roupa : roupas) {
-            selectOptions.adicionar(roupa.getNome());
+        TrajeDao trajeDao = new TrajeDao();
+        traje.setIdTraje(trajeDao.cadastrar(traje));
+
+        for (Roupa roupa : roupasAdicionadas) {
+            trajeDao.cadastrarRoupaNoTraje(roupa, traje);
         }
-        selectOptions.setTitulo("Selecione uma Roupa");
-        selectOptions.instanciar(selectOptions);
-        selectOptions.getTitulo();
-        Validar.continuar(selectOptions.getRetorno());
-        //DEFININDO quantidade
-        int qtd = JPane.input.INT("Inserir", "Digite a quantidade que deseja adicionar:");
-        Validar.continuar(qtd);
-        //SETANDO E CADASTRANDO
-        roupaTraje.setIdRoupa(roupas.get(selectOptions.getIndice()).getIdRoupa());
         listarNaTabela();
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.dao;
 
 import factory.Dao;
@@ -13,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.vo.Estoque;
+import model.vo.Roupa;
 import model.vo.Traje;
 
 /**
@@ -150,4 +146,16 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
         }
     }
 
+    public void cadastrarRoupaNoTraje(Roupa roupa, Traje traje) {
+        try {
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement(
+                    "INSERT INTO ROUPADOTRAJE(IDTRAJE, IDROUPA) VALUES (?,?)");
+            stmt.setInt(1, traje.getIdTraje());
+            stmt.setInt(2, roupa.getIdRoupa());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }

@@ -1,3 +1,4 @@
+SET SQL_SAFE_UPDATES = 0;
 droP DATABASE TRAJEDIA;
 CREATE DATABASE TRAJEDIA;
 
@@ -179,4 +180,16 @@ GROUP BY
 ORDER BY
 	IDROUPA ASC;
 
+SELECT * FROM RoupaDoTraje;
 SELECT * FROM TRAJE;
+SELECT * FROM ROUPA;
+
+select idroupa, nome, vlr, idcategoria, ativo from roupa where ativo = 1 order by idroupa asc;
+
+SELECT * FROM ROUPA;
+
+UPDATE ROUPA 	   SET ATIVO = 0 WHERE ATIVO = 1;
+UPDATE FUNCIONARIO SET ativo = 0 WHERE IDFUNCIONARIO = 1;
+
+SELECT * FROM ROUPA;
+
