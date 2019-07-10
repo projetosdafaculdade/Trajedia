@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model.dao;
 
 import factory.Dao;
@@ -14,10 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.vo.Cliente;
 
-/**
- *
- * @author Alunos
- */
+
 public class ClienteDao extends Dao implements DaoI<Cliente> {
 
     public ClienteDao() {
@@ -29,7 +22,7 @@ public class ClienteDao extends Dao implements DaoI<Cliente> {
           try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement("select IDCLIENTE, NOME, CPF, TELEFONE, IDENDERECO from cliente"
-                    + " where ativo = 1 order by IDCLIENTE desc",
+                    + " where ativo = 1 order by IDCLIENTE ASC",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet result = stmt.executeQuery();
             List<Cliente> lista = new ArrayList<Cliente>();
@@ -39,7 +32,8 @@ public class ClienteDao extends Dao implements DaoI<Cliente> {
                 c.setNome(result.getString("NOME"));
                 c.setCpf(result.getString("CPF"));
                 c.setTelefone(result.getString("TELEFONE"));
-                c.getEndereco().setIdEndereco(result.getInt("IDENDERECO"));
+                EnderecoDao enderecoDao = new EnderecoDao();
+                c.setEndereco(enderecoDao.lerPorId(result.getInt("IDENDERECO")));
                 lista.add(c);
             }
             return lista;

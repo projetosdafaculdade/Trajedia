@@ -15,7 +15,7 @@ public class Validar {
 
     static boolean DOUBLE(String string) {
         try {
-            double d = Double.parseDouble(string.replace(",", "."));
+            double d = Double.parseDouble(string.replaceAll(",", "."));
             return true;
         } catch (NumberFormatException e) {
             return false;

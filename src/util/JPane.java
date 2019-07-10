@@ -42,7 +42,7 @@ public class JPane {
                         break;
                     }
                 }
-                return Double.parseDouble(var.replaceAll(",", ""));
+                return Double.parseDouble(var.replaceAll(",", "."));
             } else {
                 return null;
             }

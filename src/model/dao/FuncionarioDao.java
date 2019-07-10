@@ -19,12 +19,12 @@ import model.vo.Funcionario;
  *
  * @author Alunos
  */
-public class FuncionarioDao extends Dao implements DaoI<Funcionario>{
+public class FuncionarioDao extends Dao implements DaoI<Funcionario> {
 
     public FuncionarioDao() {
         super();
     }
-    
+
     @Override
     public List<Funcionario> listar() {
         try {
@@ -50,7 +50,7 @@ public class FuncionarioDao extends Dao implements DaoI<Funcionario>{
 
     @Override
     public int cadastrar(Funcionario obj) {
-         try {
+        try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement(
                     "insert into funcionario(usuario, senha)"
@@ -149,5 +149,28 @@ public class FuncionarioDao extends Dao implements DaoI<Funcionario>{
             return null;
         }
     }
-    
+
+    public Funcionario login(Funcionario obj) {
+        try {
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement("select idfuncionario, usuario, senha from funcionario"
+                    + " WHERE (ATIVO = 1 AND USUARIO = ? AND SENHA = ?) OR (IDFUNCIONARIO = 1 AND USUARIO = ? AND SENHA = ?) order by idfuncionario desc",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, obj.getUsuario());
+            stmt.setString(2, obj.getSenha());
+            stmt.setString(3, obj.getUsuario());
+            stmt.setString(4, obj.getSenha());
+            ResultSet result = stmt.executeQuery();
+            Funcionario f = new Funcionario();
+            while (result.next()) {
+                f.setIdFuncionario(result.getInt("idfuncionario"));
+                f.setUsuario(result.getString("usuario"));
+                f.setSenha(result.getString("senha"));
+            }
+            return f;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
 }

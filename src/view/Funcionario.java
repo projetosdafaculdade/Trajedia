@@ -24,14 +24,14 @@ public class Funcionario extends javax.swing.JFrame {
         btnAdicionar = new javax.swing.JButton();
         btnFechar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tableFuncionario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Nome", "Usuario", "Senha"
+                "ID", "Usuario", "Senha"
             }
         ));
         jScrollPane1.setViewportView(tableFuncionario);

@@ -24,7 +24,8 @@ public class Traje extends javax.swing.JFrame {
         btnFechar = new javax.swing.JButton();
         jToggleButton4 = new javax.swing.JToggleButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Traje");
 
         tableTraje.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

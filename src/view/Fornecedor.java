@@ -24,7 +24,7 @@ public class Fornecedor extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableFornecedor = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -86,10 +86,7 @@ public class Fornecedor extends javax.swing.JFrame {
 
         tableFornecedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Razao Social", "Ref Endereco", "Telefone"

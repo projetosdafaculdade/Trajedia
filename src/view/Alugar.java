@@ -33,7 +33,8 @@ public class Alugar extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Alugar");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Valor total:");
@@ -92,7 +93,7 @@ public class Alugar extends javax.swing.JFrame {
 
         jButton5.setText("...");
 
-        jButton6.setText("Vender");
+        jButton6.setText("Alugar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
