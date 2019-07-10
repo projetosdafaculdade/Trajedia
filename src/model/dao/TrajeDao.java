@@ -29,16 +29,16 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
     public List<Traje> listar() {
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("select idtraje, desconto, idfornecedor from traje"
-                    + " where ativo = 1 order by idtraje desc",
+            stmt = conexao.prepareStatement("SELECT NOME,IDTRAJE, DESCONTO FROM TRAJE"
+                    + " WHERE ATIVO = 1 order by IDTRAJE ASC",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet result = stmt.executeQuery();
             List<Traje> lista = new ArrayList<Traje>();
             while (result.next()) {
                 Traje t = new Traje();
                 t.setIdTraje(result.getInt("idtraje"));
+                t.setNome(result.getString("NOME"));
                 t.setDesconto(result.getInt("desconto"));
-                t.getFornecedor().setIdFornecedor(result.getInt("idfornecedor"));
                 lista.add(t);
             }
             return lista;
@@ -53,11 +53,10 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
         try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement(
-                    "insert into traje(desconto, idfornecedor, nome)"
+                    "insert into traje(desconto, nome)"
                     + " values(?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, obj.getDesconto());
-            stmt.setInt(2, obj.getFornecedor().getIdFornecedor());
-            stmt.setString(3, obj.getNome());
+            stmt.setString(2, obj.getNome());
             ResultSet rs;
             if (stmt.executeUpdate() > 0) {
                 rs = stmt.getGeneratedKeys();
@@ -77,7 +76,7 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
         try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement("update traje"
-                    + " set desconto = ?, idfornecedor = ? where idtraje = ?");
+                    + " set desconto = ?, where idtraje = ?");
             stmt.setInt(1, obj.getDesconto());
             stmt.setInt(2, obj.getFornecedor().getIdFornecedor());
             stmt.setInt(3, obj.getIdTraje());

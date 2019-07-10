@@ -8,7 +8,8 @@ public class Traje extends javax.swing.JFrame {
 
     public Traje() {
         initComponents();
-         trajeController = new TrajeController(btnAdicionar, btnEditar, btnFechar, btnRemover, tableTraje, this);
+        trajeController = new TrajeController(btnAdicionar, btnEditar, btnFechar, btnRemover, tableTraje, this);
+        lerTrajes();
     }
 
     @SuppressWarnings("unchecked")
@@ -22,7 +23,6 @@ public class Traje extends javax.swing.JFrame {
         btnRemover = new javax.swing.JToggleButton();
         btnEditar = new javax.swing.JToggleButton();
         btnFechar = new javax.swing.JButton();
-        jToggleButton4 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Traje");
@@ -57,18 +57,13 @@ public class Traje extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton4.setText("Visualizar");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(btnAdicionar))
-                    .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(103, 103, 103)
+                .addComponent(btnAdicionar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnFechar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -88,9 +83,6 @@ public class Traje extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFechar)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jToggleButton4))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -152,7 +144,10 @@ public class Traje extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnRemover;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToggleButton jToggleButton4;
     private javax.swing.JTable tableTraje;
     // End of variables declaration//GEN-END:variables
+
+    private void lerTrajes() {
+        trajeController.listarNaTabela();
+    }
 }

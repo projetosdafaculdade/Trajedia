@@ -178,20 +178,4 @@ public class ClienteController {
         JasperViewer.viewReport(jPrint, false);
     }
 
-    public void gerarRelatorio2() {
-        InputStream dados = ClienteController.class.getResourceAsStream("Reporter.jrxml");
-        JasperReport jReport = null;
-        try {
-            jReport = JasperCompileManager.compileReport(dados);
-        } catch (JRException ex) {
-            Logger.getLogger(ClienteController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        JasperPrint jPrint = null;
-        try {
-            jPrint = JasperFillManager.fillReport(jReport, null, Conexao.getConexao());
-        } catch (JRException ex) {
-            Logger.getLogger(ClienteController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        JasperViewer.viewReport(jPrint, false);
-    }
 }

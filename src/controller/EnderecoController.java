@@ -113,15 +113,22 @@ public class EnderecoController {
             listarNaTabela();
         } else {
             //DEFININDO CEP
-            String cep = JPane.input.STRING("Inserir", "Digite o cep:");
-            Validar.continuar(cep);
-            EnderecoServer enderecoServer = new EnderecoServer();
-            enderecoServer.setCep(cep);
-            EnderecoBO enderecoBO = new EnderecoBO(enderecoServer);
-            cep = enderecoBO.removeHifenCep();
-
+            EnderecoServer e = null;
+            EnderecoServer enderecoServer = null;
+            EnderecoBO enderecoBO = null;
+            while (e == null || e.getLocalidade() == null) {
+                String cep = JPane.input.STRING("Inserir", "Digite o cep:");
+                Validar.continuar(cep);
+                enderecoServer = new EnderecoServer();
+                enderecoServer.setCep(cep);
+                enderecoBO = new EnderecoBO(enderecoServer);
+                cep = enderecoBO.removeHifenCep();
+                e = EnderecoDaoServer.getEndereco(cep); //Resgata o endereço do servidor
+                if(e == null || e.getLocalidade() == null){
+                    JPane.show.STRING("AVISO!", "Erro, CEP inválido!");
+                }
+            }
             if (enderecoBO.validarTamanhoCep()) {
-                EnderecoServer e = EnderecoDaoServer.getEndereco(cep); //Resgata o endereço do servidor
                 endereco.setBairro(e.getBairro());
                 endereco.setCidade(e.getLocalidade());
                 endereco.setNumero(e.getComplemento());

@@ -19,31 +19,39 @@ import util.JPane;
 import util.SelectOptions;
 import util.Validar;
 import view.AdicionarRoupaTraje;
+import view.RoupaTrajeAdd;
 
 public class AdicionarRoupaTrajeController {
 
-    private javax.swing.JToggleButton btnAdicionar;
+    private javax.swing.JToggleButton btnAdicionarTraje;
+    private javax.swing.JButton btnCriarTraje;
     private javax.swing.JButton btnAdicionarRoupa;
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnRemoverRoupa;
-    private javax.swing.JTable tableAdicionarRoupaTraje;
     private javax.swing.JTextField jtfDesconto;
     private javax.swing.JTextField jtfNomeTraje;
-    private view.AdicionarRoupaTraje adicionarRoupaTraje;
+    private javax.swing.JTable tableAdicionarRoupaTraje;
+    private RoupaTrajeAdd roupaTrajeAdd;
     private List<RoupaTraje> roupaTrajes = new ArrayList<>();
     private Traje traje;
+    private List<Roupa> roupasAdicionadas = new ArrayList<>();
 
     public AdicionarRoupaTrajeController() {
     }
 
-    public AdicionarRoupaTrajeController(JToggleButton btnAdicionar, JButton btnAdicionarRoupa, JButton btnFechar, JButton btnRemoverRoupa, JTable tableAdicionarRoupaTraje, JTextField jtfDesconto, JTextField jtfNomeTraje, AdicionarRoupaTraje adicionarRoupaTraje) {
+    public AdicionarRoupaTrajeController(RoupaTrajeAdd roupaTrajeAdd, JToggleButton btnAdicionarTraje, JButton btnCriarTraje, JButton btnAdicionarRoupa, JButton btnFechar, JButton btnRemoverRoupa, JTextField jtfDesconto, JTextField jtfNomeTraje, JTable tableAdicionarRoupaTraje, Traje traje) {
+        this.btnAdicionarTraje = btnAdicionarTraje;
+        this.btnCriarTraje = btnCriarTraje;
         this.btnAdicionarRoupa = btnAdicionarRoupa;
         this.btnFechar = btnFechar;
         this.btnRemoverRoupa = btnRemoverRoupa;
-        this.tableAdicionarRoupaTraje = tableAdicionarRoupaTraje;
         this.jtfDesconto = jtfDesconto;
         this.jtfNomeTraje = jtfNomeTraje;
-        this.adicionarRoupaTraje = adicionarRoupaTraje;
+        this.tableAdicionarRoupaTraje = tableAdicionarRoupaTraje;
+        this.roupaTrajeAdd = roupaTrajeAdd;
+        if (this.traje != null) {
+            jtfDesconto.setEnabled(false);
+        }
     }
 
     private RoupaDao roupaDao;
@@ -76,29 +84,30 @@ public class AdicionarRoupaTrajeController {
 
     public void adicionarRoupa() {
         if (traje != null) {
-            RoupaTraje roupaTraje = new RoupaTraje();
-            RoupaDao roupaDao = new RoupaDao();
-            List<Roupa> roupas = roupaDao.listar();
+            List<Roupa> roupasListadas = new ArrayList<>();
+            roupasListadas = roupaDao.listar();
             //DEFININDO UMA ROUPA
             SelectOptions selectOptions = new SelectOptions();
-            for (Roupa roupa : roupas) {
+            for (Roupa roupa : roupasListadas) {
                 selectOptions.adicionar(roupa.getNome());
             }
             selectOptions.setTitulo("Selecione uma Roupa");
             selectOptions.instanciar(selectOptions);
             selectOptions.getTitulo();
             Validar.continuar(selectOptions.getRetorno());
-            //DEFININDO quantidade
-            int qtd = JPane.input.INT("Inserir", "Digite a quantidade que deseja adicionar:");
-            Validar.continuar(qtd);
             //SETANDO E CADASTRANDO
-            roupaTraje.setIdRoupa(roupas.get(selectOptions.getIndice()).getIdRoupa());
-            listarNaTabela();
+            roupasAdicionadas.add(roupasListadas.get(selectOptions.getIndice()));
             listarNaTabela();
         } else {
             JPane.show.STRING("Aviso!", "Primeiro crie o traje");
         }
 
+    }
+
+    public void AdicionarRoupaNaTable(Roupa roupa) {
+        DefaultTableModel model = (DefaultTableModel) tableAdicionarRoupaTraje.getModel();
+        Object[] linhas = {roupa.getIdRoupa(), roupa.getNome(), roupa.getVlr(), roupa.getCategoria().getNome()};
+        model.addRow(linhas);
     }
 
     public void removerRoupa() {
@@ -119,7 +128,7 @@ public class AdicionarRoupaTrajeController {
     }
 
     public void fechar() {
-        adicionarRoupaTraje.dispose();
+        roupaTrajeAdd.dispose();
     }
 
     public void editarRoupa() {
@@ -157,11 +166,32 @@ public class AdicionarRoupaTrajeController {
     }
 
     public void criarTraje() {
-        TrajeDao trajeDao = new TrajeDao();
-        Traje trajeCriar = new Traje();
-        trajeCriar.setNome(jtfNomeTraje.getText());
-        trajeCriar.setDesconto(Integer.parseInt(jtfDesconto.getText()));
-        trajeDao.cadastrar(trajeCriar);
-        
+        Validar.continuar(jtfNomeTraje.getText());
+        Validar.INT(jtfDesconto.getText());
+        traje = new Traje();
+        traje.setNome(jtfNomeTraje.getText());
+        traje.setDesconto(Integer.parseInt(jtfDesconto.getText()));
+        btnCriarTraje.setEnabled(false);
+    }
+
+    public void cadastrar() {
+        RoupaTraje roupaTraje = new RoupaTraje();
+        RoupaDao roupaDao = new RoupaDao();
+        List<Roupa> roupas = roupaDao.listar();
+        //DEFININDO UMA ROUPA
+        SelectOptions selectOptions = new SelectOptions();
+        for (Roupa roupa : roupas) {
+            selectOptions.adicionar(roupa.getNome());
+        }
+        selectOptions.setTitulo("Selecione uma Roupa");
+        selectOptions.instanciar(selectOptions);
+        selectOptions.getTitulo();
+        Validar.continuar(selectOptions.getRetorno());
+        //DEFININDO quantidade
+        int qtd = JPane.input.INT("Inserir", "Digite a quantidade que deseja adicionar:");
+        Validar.continuar(qtd);
+        //SETANDO E CADASTRANDO
+        roupaTraje.setIdRoupa(roupas.get(selectOptions.getIndice()).getIdRoupa());
+        listarNaTabela();
     }
 }

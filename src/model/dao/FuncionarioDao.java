@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.dao;
 
 import factory.Dao;
@@ -15,10 +10,6 @@ import java.util.List;
 import model.vo.Categoria;
 import model.vo.Funcionario;
 
-/**
- *
- * @author Alunos
- */
 public class FuncionarioDao extends Dao implements DaoI<Funcionario> {
 
     public FuncionarioDao() {

@@ -1,10 +1,12 @@
 package view;
 
 import controller.InicialController;
+import controller.RelatorioController;
 
 public class Inicial extends javax.swing.JFrame {
 
     InicialController inicialController;
+    RelatorioController relatorioController;
     public final int idFuncionario;
 
     public Inicial(int idFuncionario) {
@@ -12,6 +14,7 @@ public class Inicial extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         inicialController = new InicialController();
         this.idFuncionario = idFuncionario;
+        relatorioController = new RelatorioController();
     }
 
     @SuppressWarnings("unchecked")
@@ -28,11 +31,12 @@ public class Inicial extends javax.swing.JFrame {
         btnCategoria = new javax.swing.JMenuItem();
         btnFornecedor1 = new javax.swing.JMenuItem();
         btnFornecedor2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        btnAgendar = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trajedia");
@@ -106,19 +110,19 @@ public class Inicial extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Agendar");
-        jMenu2.addMenuListener(new javax.swing.event.MenuListener() {
+        btnAgendar.setText("Agendar");
+        btnAgendar.addMenuListener(new javax.swing.event.MenuListener() {
             public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
             public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenu2MenuSelected(evt);
+                btnAgendarMenuSelected(evt);
             }
         });
-        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+        btnAgendar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu2ActionPerformed(evt);
+                btnAgendarActionPerformed(evt);
             }
         });
 
@@ -128,9 +132,9 @@ public class Inicial extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        btnAgendar.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(btnAgendar);
 
         jMenu3.setText("Alugar");
         jMenu3.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +159,15 @@ public class Inicial extends javax.swing.JFrame {
                 jMenu4ActionPerformed(evt);
             }
         });
+
+        jMenuItem3.setText("Clientes");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem3);
+
         jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
@@ -206,9 +219,9 @@ public class Inicial extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenu4ActionPerformed
 
-    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+    private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
         inicialController.agendar();
-    }//GEN-LAST:event_jMenu2ActionPerformed
+    }//GEN-LAST:event_btnAgendarActionPerformed
 
     private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
         inicialController.alugar();
@@ -218,9 +231,9 @@ public class Inicial extends javax.swing.JFrame {
         inicialController.permissoes();
     }//GEN-LAST:event_btnFornecedor2ActionPerformed
 
-    private void jMenu2MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu2MenuSelected
-        inicialController.agendar();
-    }//GEN-LAST:event_jMenu2MenuSelected
+    private void btnAgendarMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_btnAgendarMenuSelected
+
+    }//GEN-LAST:event_btnAgendarMenuSelected
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
@@ -229,6 +242,10 @@ public class Inicial extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         inicialController.alugar();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+       relatorioController.cliente();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -250,6 +267,7 @@ public class Inicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu btnAgendar;
     private javax.swing.JMenuItem btnCategoria;
     private javax.swing.JMenuItem btnCliente;
     private javax.swing.JMenuItem btnFornecedor;
@@ -259,11 +277,11 @@ public class Inicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnRoupa;
     private javax.swing.JMenuItem btnTraje;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     // End of variables declaration//GEN-END:variables
 }

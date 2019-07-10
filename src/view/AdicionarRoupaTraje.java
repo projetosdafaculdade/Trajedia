@@ -9,6 +9,7 @@ public class AdicionarRoupaTraje extends javax.swing.JFrame {
     public AdicionarRoupaTraje() {
         initComponents();
         AdicionarRoupaTrajeController = new AdicionarRoupaTrajeController(btnAdicionar, btnAdicionarRoupa, btnFechar, btnRemoverRoupa, tableAdicionarRoupaTraje, jtfDesconto, jtfNomeTraje, this);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -37,7 +38,8 @@ public class AdicionarRoupaTraje extends javax.swing.JFrame {
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestão do Traje");
 
         tableAdicionarRoupaTraje.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

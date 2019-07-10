@@ -15,6 +15,7 @@ import util.JPane;
 import util.SelectOptions;
 import util.Validar;
 import view.AdicionarRoupaTraje;
+import view.RoupaTrajeAdd;
 
 public class TrajeController {
 
@@ -62,9 +63,9 @@ public class TrajeController {
     }
 
     public void adicionarTraje() {
-        AdicionarRoupaTraje adicionarRoupaTraje = new AdicionarRoupaTraje();
+        RoupaTrajeAdd adicionarRoupaTraje = new RoupaTrajeAdd(null, true, null);
         adicionarRoupaTraje.setVisible(true);
-        listarTrajes();
+        listarNaTabela();
     }
 
     public void fechar() {

@@ -28,7 +28,7 @@ public class Endereco extends javax.swing.JFrame {
         btnAdicionar = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tableEndereco.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

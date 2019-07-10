@@ -50,6 +50,7 @@ IDTRAJE INT NOT NULL AUTO_INCREMENT,
 NOME VARCHAR(45) NOT NULL,
 DESCONTO INT NOT NULL,
 IDFORNECEDOR INT,
+ATIVO INT DEFAULT 1,	
 PRIMARY KEY(IDTRAJE),
 FOREIGN KEY (IDFORNECEDOR) REFERENCES FORNECEDOR(IDFORNECEDOR)
 );
@@ -140,7 +141,7 @@ insert into categoria(NOME) values("Calça");
 insert into categoria(NOME) values("Tênis");
 insert into categoria(NOME) values("Salto");
 insert into categoria(NOME) values("Vestido");
-insert into funcionario(USUARIO,SENHA) values("ADMIN","ADMIN");UPDATE FUNCIONARIO SET ATIVO = 0 WHERE ATIVO = 1;
+insert into funcionario(USUARIO,SENHA) values("ADMIN","ADMIN");
 UPDATE FUNCIONARIO SET ativo = 0 WHERE IDFUNCIONARIO = 1;
 
 

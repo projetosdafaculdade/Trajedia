@@ -47,10 +47,9 @@ public class RoupaDao extends Dao implements DaoI<Roupa> {
         try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement("select idroupa, nome, vlr, idcategoria, ativo from roupa"
-                    + " where ativo = 1 order by idroupa asc",
-                    PreparedStatement.RETURN_GENERATED_KEYS);
+                    + " where ativo = 1 order by idroupa asc");
             ResultSet result = stmt.executeQuery();
-            List<Roupa> lista = new ArrayList<Roupa>();
+            List<Roupa> lista = new ArrayList<>();
             while (result.next()) {
                 Roupa r = new Roupa();
                 r.setIdRoupa(result.getInt("idroupa"));

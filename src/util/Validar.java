@@ -13,7 +13,7 @@ public class Validar {
         }
     }
 
-    static boolean DOUBLE(String string) {
+    public static boolean DOUBLE(String string) {
         try {
             double d = Double.parseDouble(string.replaceAll(",", "."));
             return true;
@@ -22,7 +22,7 @@ public class Validar {
         }
     }
 
-    static boolean INT(String string) {
+    public static boolean INT(String string) {
         try {
             Integer d = Integer.parseInt(string);
             return true;
@@ -31,7 +31,7 @@ public class Validar {
         }
     }
 
-    public static void continuar(String string) {
+     public static void continuar(String string) {
         if (string == null) {
             Double.parseDouble(string);
         }
