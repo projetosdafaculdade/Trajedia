@@ -4,10 +4,8 @@ package controller;
 
 import javax.swing.JTextField;
 import model.dao.FuncionarioDao;
-import model.dao.FuncionarioDao;
 import model.vo.Funcionario;
 import util.JPane;
-import view.AdicionarRoupaTraje;
 import view.Inicial;
 import view.Login;
 

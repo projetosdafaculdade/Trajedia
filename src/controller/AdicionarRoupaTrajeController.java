@@ -18,7 +18,6 @@ import model.vo.Traje;
 import util.JPane;
 import util.SelectOptions;
 import util.Validar;
-import view.AdicionarRoupaTraje;
 import view.RoupaTrajeAdd;
 
 public class AdicionarRoupaTrajeController {
@@ -49,9 +48,7 @@ public class AdicionarRoupaTrajeController {
         this.jtfNomeTraje = jtfNomeTraje;
         this.tableAdicionarRoupaTraje = tableAdicionarRoupaTraje;
         this.roupaTrajeAdd = roupaTrajeAdd;
-        if (this.traje != null) {
-            jtfDesconto.setEnabled(false);
-        }
+        this.traje = traje;
     }
 
     private RoupaDao roupaDao;
@@ -83,47 +80,53 @@ public class AdicionarRoupaTrajeController {
     }
 
     public void adicionarRoupa() {
-        if (traje != null) {
-            roupaDao = new RoupaDao();
-            List<Roupa> roupasListadas = roupaDao.listar();
-            //DEFININDO UMA ROUPA
-            SelectOptions selectOptions = new SelectOptions();
-            for (Roupa roupa : roupasListadas) {
-                selectOptions.adicionar(roupa.getNome());
+        try {
+            if (traje != null) {
+                roupaDao = new RoupaDao();
+                List<Roupa> roupasListadas = roupaDao.listar();
+                //DEFININDO UMA ROUPA
+                SelectOptions selectOptions = new SelectOptions();
+                for (Roupa roupa : roupasListadas) {
+                    selectOptions.adicionar(roupa.getNome());
+                }
+                selectOptions.setTitulo("Selecione uma Roupa");
+                selectOptions.instanciar(selectOptions);
+                selectOptions.getTitulo();
+                Validar.continuar(selectOptions.getRetorno());
+                //SETANDO E CADASTRANDO
+                roupasAdicionadas.add(roupasListadas.get(selectOptions.getIndice()));
+                listarNaTabela();
+            } else {
+                JPane.show.STRING("Aviso!", "Primeiro crie o traje");
             }
-            selectOptions.setTitulo("Selecione uma Roupa");
-            selectOptions.instanciar(selectOptions);
-            selectOptions.getTitulo();
-            Validar.continuar(selectOptions.getRetorno());
-            //SETANDO E CADASTRANDO
-            roupasAdicionadas.add(roupasListadas.get(selectOptions.getIndice()));
-            listarNaTabela();
-        } else {
-            JPane.show.STRING("Aviso!", "Primeiro crie o traje");
+        } catch (Exception e) {
         }
-
     }
 
     public void AdicionarRoupaNaTable(Roupa roupa) {
-        DefaultTableModel model = (DefaultTableModel) tableAdicionarRoupaTraje.getModel();
-        Object[] linhas = {roupa.getIdRoupa(), roupa.getNome(), roupa.getVlr(), roupa.getCategoria().getNome()};
-        model.addRow(linhas);
+        try {
+            DefaultTableModel model = (DefaultTableModel) tableAdicionarRoupaTraje.getModel();
+            Object[] linhas = {roupa.getIdRoupa(), roupa.getNome(), roupa.getVlr(), roupa.getCategoria().getNome()};
+            model.addRow(linhas);
+        } catch (Exception e) {
+        }
     }
 
     public void removerRoupa() {
-        if (traje != null) {
-            if (tableAdicionarRoupaTraje.getSelectedRow() >= 0) {
-                DefaultTableModel model = (DefaultTableModel) tableAdicionarRoupaTraje.getModel();
-                int linhaSelecionada = tableAdicionarRoupaTraje.getSelectedRow();
-                roupaDao = new RoupaDao();
-                roupaDao.deletar(roupas.get(linhaSelecionada).getIdRoupa());
-                JPane.show.STRING("Alerta!", roupas.get(linhaSelecionada).getNome() + " foi excluída!");
-                listarNaTabela();
+        try {
+            if (traje != null) {
+                if (tableAdicionarRoupaTraje.getSelectedRow() >= 0) {
+                    DefaultTableModel model = (DefaultTableModel) tableAdicionarRoupaTraje.getModel();
+                    int linhaSelecionada = tableAdicionarRoupaTraje.getSelectedRow();
+                    roupasAdicionadas.remove(linhaSelecionada);
+                    listarNaTabela();
+                } else {
+                    JPane.show.STRING("AVISO!", "Para excluir, escolha uma linha!");
+                }
             } else {
-                JPane.show.STRING("AVISO!", "Para excluir, escolha uma linha!");
+                JPane.show.STRING("Aviso!", "Primeiro crie o traje");
             }
-        } else {
-            JPane.show.STRING("Aviso!", "Primeiro crie o traje");
+        } catch (Exception e) {
         }
     }
 
@@ -166,21 +169,55 @@ public class AdicionarRoupaTrajeController {
     }
 
     public void criarTraje() {
-        Validar.continuar(jtfNomeTraje.getText());
-        Validar.INT(jtfDesconto.getText());
-        traje = new Traje();
-        traje.setNome(jtfNomeTraje.getText());
-        traje.setDesconto(Integer.parseInt(jtfDesconto.getText()));
-        btnCriarTraje.setEnabled(false);
+        try {
+            Validar.continuar(jtfNomeTraje.getText());
+            Validar.INT(jtfDesconto.getText());
+            traje = new Traje();
+            traje.setNome(jtfNomeTraje.getText());
+            traje.setDesconto(Integer.parseInt(jtfDesconto.getText()));
+            btnCriarTraje.setEnabled(false);
+        } catch (Exception e) {
+            JPane.show.STRING("Aviso", "Preencha todos os campos corretamente!");
+        }
     }
 
     public void cadastrar() {
-        TrajeDao trajeDao = new TrajeDao();
-        traje.setIdTraje(trajeDao.cadastrar(traje));
+        try {
+            TrajeDao trajeDao = new TrajeDao();
+            if (traje.getIdTraje() == 0) {
+                traje.setIdTraje(trajeDao.cadastrar(traje));
+            } else {
+                Validar.INT(jtfDesconto.getText());
+                Validar.continuar(jtfNomeTraje.getText());
+                traje.setNome(jtfNomeTraje.getText());
+                traje.setDesconto(Integer.parseInt(jtfDesconto.getText()));
+                trajeDao.alterar(traje);
+                trajeDao.limparRelacionamento(traje);
+            }
 
-        for (Roupa roupa : roupasAdicionadas) {
-            trajeDao.cadastrarRoupaNoTraje(roupa, traje);
+            for (Roupa roupa : roupasAdicionadas) {
+                trajeDao.cadastrarRoupaNoTraje(roupa, traje);
+            }
+            listarNaTabela();
+            roupaTrajeAdd.dispose();
+        } catch (Exception e) {
+            JPane.show.STRING("AVISO!", "Preencha todos os campos corretamente!");
         }
-        listarNaTabela();
+    }
+
+    public void lerTraje() {
+        try {
+            if (traje != null) {
+                jtfDesconto.setText(String.valueOf(traje.getDesconto()));
+                jtfNomeTraje.setText(String.valueOf(traje.getNome()));
+                btnCriarTraje.setEnabled(false);
+                TrajeDao trajeDao = new TrajeDao();
+                for (Roupa roupa : trajeDao.listarRoupas(traje)) {
+                    roupasAdicionadas.add(roupa);
+                    AdicionarRoupaNaTable(roupa);
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 }

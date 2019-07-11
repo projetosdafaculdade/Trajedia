@@ -5,13 +5,14 @@ import controller.AdicionarRoupaTrajeController;
 public class RoupaTrajeAdd extends javax.swing.JDialog {
 
     AdicionarRoupaTrajeController AdicionarRoupaTrajeController;
-    Traje traje = null;
+    model.vo.Traje traje = null;
 
-    public RoupaTrajeAdd(java.awt.Frame parent, boolean modal, Traje traje) {
+    public RoupaTrajeAdd(java.awt.Frame parent, boolean modal, model.vo.Traje traje) {
         super(parent, modal);
         initComponents();
         this.traje = traje;
-        AdicionarRoupaTrajeController = new AdicionarRoupaTrajeController(this, btnAdicionarTraje, btnCriarTraje, btnAdicionarRoupa, btnFechar, btnRemoverRoupa, jtfDesconto, jtfNomeTraje, tableAdicionarRoupaTraje, null);
+        AdicionarRoupaTrajeController = new AdicionarRoupaTrajeController(this, btnAdicionarTraje, btnCriarTraje, btnAdicionarRoupa, btnFechar, btnRemoverRoupa, jtfDesconto, jtfNomeTraje, tableAdicionarRoupaTraje, this.traje);
+        lerTraje();
     }
 
     @SuppressWarnings("unchecked")
@@ -57,7 +58,7 @@ public class RoupaTrajeAdd extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnAdicionarTraje.setText("Adicionar");
+        btnAdicionarTraje.setText("Confirmar");
         btnAdicionarTraje.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdicionarTrajeActionPerformed(evt);
@@ -83,11 +84,11 @@ public class RoupaTrajeAdd extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
                 .addComponent(btnCriarTraje, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(btnAdicionarTraje, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAdicionarTraje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -112,6 +113,11 @@ public class RoupaTrajeAdd extends javax.swing.JDialog {
         });
 
         btnRemoverRoupa.setText("-");
+        btnRemoverRoupa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverRoupaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Roupa:");
 
@@ -172,11 +178,11 @@ public class RoupaTrajeAdd extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarTrajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarTrajeActionPerformed
-      AdicionarRoupaTrajeController.cadastrar();
+        AdicionarRoupaTrajeController.cadastrar();
     }//GEN-LAST:event_btnAdicionarTrajeActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
-        // TODO add your handling code here:
+        AdicionarRoupaTrajeController.fechar();   
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnAdicionarRoupaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarRoupaActionPerformed
@@ -184,8 +190,12 @@ public class RoupaTrajeAdd extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAdicionarRoupaActionPerformed
 
     private void btnCriarTrajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriarTrajeActionPerformed
-     AdicionarRoupaTrajeController.criarTraje();
+        AdicionarRoupaTrajeController.criarTraje();
     }//GEN-LAST:event_btnCriarTrajeActionPerformed
+
+    private void btnRemoverRoupaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverRoupaActionPerformed
+        AdicionarRoupaTrajeController.removerRoupa();
+    }//GEN-LAST:event_btnRemoverRoupaActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -201,7 +211,7 @@ public class RoupaTrajeAdd extends javax.swing.JDialog {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                RoupaTrajeAdd dialog = new RoupaTrajeAdd(new javax.swing.JFrame(), true, new Traje());
+                RoupaTrajeAdd dialog = new RoupaTrajeAdd(new javax.swing.JFrame(), true, new model.vo.Traje());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -228,4 +238,8 @@ public class RoupaTrajeAdd extends javax.swing.JDialog {
     private javax.swing.JTextField jtfNomeTraje;
     private javax.swing.JTable tableAdicionarRoupaTraje;
     // End of variables declaration//GEN-END:variables
+
+    private void lerTraje() {
+        AdicionarRoupaTrajeController.lerTraje();
+    }
 }

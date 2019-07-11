@@ -3,18 +3,12 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
-import model.dao.CategoriaDao;
 import model.dao.TrajeDao;
-import model.vo.Categoria;
 import model.vo.Traje;
 import util.JPane;
-import util.SelectOptions;
-import util.Validar;
-import view.AdicionarRoupaTraje;
 import view.RoupaTrajeAdd;
 
 public class TrajeController {
@@ -56,7 +50,8 @@ public class TrajeController {
             Object[] linha = {
                 traje.getIdTraje(),
                 traje.getNome(),
-                traje.getDesconto()
+                traje.getDesconto(),
+                traje.getValorTraje()
             };
             model.addRow(linha);
         }
@@ -74,9 +69,9 @@ public class TrajeController {
 
     public void editarTraje() {
         if (tableTraje.getSelectedRow() >= 0) {
-            AdicionarRoupaTraje adicionarRoupaTraje = new AdicionarRoupaTraje();
+            RoupaTrajeAdd adicionarRoupaTraje = new RoupaTrajeAdd(null, true, trajes.get(tableTraje.getSelectedRow()));
             adicionarRoupaTraje.setVisible(true);
-            listarTrajes();
+            listarNaTabela();
         } else {
             JPane.show.STRING("AVISO!", "Para editar, escolha uma linha!");
         }

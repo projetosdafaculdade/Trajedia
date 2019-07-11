@@ -1,7 +1,6 @@
 package controller;
 
 import factory.Conexao;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -9,13 +8,9 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import model.dao.CategoriaDao;
 import model.dao.ClienteDao;
 import model.dao.EnderecoDao;
-import model.dao.RoupaDao;
-import model.vo.Categoria;
 import model.vo.Endereco;
-import model.vo.Roupa;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -25,7 +20,6 @@ import net.sf.jasperreports.view.JasperViewer;
 import util.JPane;
 import util.SelectOptions;
 import util.Validar;
-import view.Cliente;
 
 public class ClienteController {
 

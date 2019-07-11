@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.vo.Estoque;
 import model.vo.Roupa;
 import model.vo.Traje;
@@ -25,8 +27,17 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
     public List<Traje> listar() {
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("SELECT NOME,IDTRAJE, DESCONTO FROM TRAJE"
-                    + " WHERE ATIVO = 1 order by IDTRAJE ASC",
+            stmt = conexao.prepareStatement("SELECT \n" +
+"	NOME\n" +
+"    , IDTRAJE\n" +
+"    , DESCONTO\n" +
+"    , (SELECT (SUM(VLR) * DESCONTO / 100) FROM ROUPA INNER JOIN ROUPADOTRAJE ON ROUPADOTRAJE.IDROUPA = ROUPA.IDROUPA WHERE IDTRAJE = IDTRAJE)  AS VLRTRAJE\n" +
+"FROM \n" +
+"	TRAJE\n" +
+"WHERE \n" +
+"	ATIVO = 1 \n" +
+"ORDER BY \n" +
+"	IDTRAJE ASC",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ResultSet result = stmt.executeQuery();
             List<Traje> lista = new ArrayList<Traje>();
@@ -35,6 +46,7 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
                 t.setIdTraje(result.getInt("idtraje"));
                 t.setNome(result.getString("NOME"));
                 t.setDesconto(result.getInt("desconto"));
+                t.setValorTraje(result.getDouble("VLRTRAJE"));
                 lista.add(t);
             }
             return lista;
@@ -72,9 +84,9 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
         try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement("update traje"
-                    + " set desconto = ?, where idtraje = ?");
-            stmt.setInt(1, obj.getDesconto());
-            stmt.setInt(2, obj.getFornecedor().getIdFornecedor());
+                    + " set nome = ?,desconto = ? where idtraje = ?");
+            stmt.setString(1, obj.getNome());
+            stmt.setInt(2, obj.getDesconto());
             stmt.setInt(3, obj.getIdTraje());
             return stmt.executeUpdate() > 0;
         } catch (SQLException ex) {
@@ -151,11 +163,73 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement(
                     "INSERT INTO ROUPADOTRAJE(IDTRAJE, IDROUPA) VALUES (?,?)");
+            System.out.println("X" + traje.getIdTraje());
+            System.out.println("X" + roupa.getIdRoupa());
             stmt.setInt(1, traje.getIdTraje());
             stmt.setInt(2, roupa.getIdRoupa());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        }
+    }
+
+    public List<Roupa> listarRoupas(Traje traje) {
+        List<Roupa> roupas = new ArrayList<>();
+        try {
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement("SELECT \n"
+                    + "	ROUPADOTRAJE.IDTRAJE, \n"
+                    + "    ROUPADOTRAJE.IDROUPA,\n"
+                    + "    ROUPA.NOME,\n"
+                    + "    ROUPA.VLR,\n"
+                    + "    CATEGORIA.IDCATEGORIA\n"
+                    + "FROM\n"
+                    + "	ROUPADOTRAJE\n"
+                    + "INNER JOIN ROUPA ON\n"
+                    + "ROUPADOTRAJE.IDROUPA = ROUPA.IDROUPA \n"
+                    + "INNER JOIN CATEGORIA ON\n"
+                    + "CATEGORIA.IDCATEGORIA = ROUPA.IDCATEGORIA\n"
+                    + "WHERE ROUPADOTRAJE.IDTRAJE = ?");
+            stmt.setInt(1, traje.getIdTraje());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Roupa roupa = new Roupa();
+                roupa.setIdRoupa(rs.getInt("IDROUPA"));
+                roupa.setNome(rs.getString("NOME"));
+                roupa.setVlr(rs.getDouble("VLR"));
+                CategoriaDao categoriaDao = new CategoriaDao();
+                roupa.setCategoria(categoriaDao.lerPorId(rs.getInt("IDCATEGORIA")));
+                roupas.add(roupa);
+            }
+
+            return roupas;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    public void limparRelacionamento(Traje traje) {
+        PreparedStatement stmt;
+        try {
+            stmt = conexao.prepareStatement("DELETE FROM ROUPADOTRAJE WHERE IDTRAJE = ?");
+            stmt.setInt(1, traje.getIdTraje());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TrajeDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void removerRoupaDoTraje(Traje traje, Roupa roupa) {
+        PreparedStatement stmt;
+        try {
+            stmt = conexao.prepareStatement("DELETE FROM ROUPADOTRAJE WHERE IDTRAJE = ? AND IDROUPA = ?");
+            stmt.setInt(1, traje.getIdTraje());
+            stmt.setInt(2, roupa.getIdRoupa());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TrajeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

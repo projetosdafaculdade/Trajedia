@@ -32,7 +32,7 @@ public class Traje extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Traje", "Valor"
+                "ID", "Traje", "Desconto", "Valor"
             }
         ));
         jScrollPane1.setViewportView(tableTraje);
@@ -49,6 +49,11 @@ public class Traje extends javax.swing.JFrame {
         btnRemover.setText("-");
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnFechar.setText("Fechar");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -117,6 +122,10 @@ public class Traje extends javax.swing.JFrame {
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         trajeController.adicionarTraje();
     }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        trajeController.editarTraje();
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     public static void main(String args[]) {
         try {

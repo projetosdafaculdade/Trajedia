@@ -1,9 +1,5 @@
 package view;
 
-/**
- * @author Johnatan Lucas de Souza
- */
-
 public class Permissao extends javax.swing.JFrame {
 
     public Permissao() {

@@ -7,6 +7,17 @@ public class Traje {
     private int desconto;
     private Fornecedor fornecedor;
     private int ativo;
+    double valorTraje;
+
+    public double getValorTraje() {
+        return valorTraje;
+    }
+
+    public void setValorTraje(double valorTraje) {
+        this.valorTraje = valorTraje;
+    }
+    
+    
 
     public Traje() {
     }
@@ -63,5 +74,6 @@ public class Traje {
     public String toString() {
         return "Traje{" + "idTraje=" + idTraje + ", desconto=" + desconto + ", fornecedor=" + fornecedor + '}';
     }
+
 
 }
