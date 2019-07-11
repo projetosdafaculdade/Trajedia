@@ -16,7 +16,6 @@ public class InicialController {
     public InicialController() {
     }
 
-
     public void abrirCliente() {
         Cliente cliente = new Cliente();
         cliente.setVisible(true);
@@ -66,4 +65,5 @@ public class InicialController {
         Permissao permissao = new Permissao();
         permissao.setVisible(true);
     }
+
 }

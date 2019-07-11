@@ -37,6 +37,7 @@ public class Validar {
         }
     }
 
+ 
     public static void continuar(Integer string) {
         if (string == null) {
             string = string * 0;

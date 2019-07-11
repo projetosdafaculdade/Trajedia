@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.dao.ClienteDao;
 import model.dao.FuncionarioDao;
+import model.dao.LocacaoDao;
 import model.dao.RoupaDao;
 import model.dao.TrajeDao;
 import model.vo.Cliente;
@@ -22,6 +23,7 @@ import model.vo.Roupa;
 import model.vo.Traje;
 import util.ConverterDouble;
 import util.JPane;
+import util.Obter;
 import util.SelectOptions;
 import util.Validar;
 import view.Alugar;
@@ -212,26 +214,25 @@ public class AlugarController {
     }
 
     public void alugar() {
-//        try {
-        Locacao locacao = new Locacao();
-        locacao.setTrajes(trajesAdicionadas);
-        locacao.setCliente(cliente);
-        FuncionarioDao funcionario = new FuncionarioDao();
-        locacao.setFuncionario(funcionario.lerPorId(0));
-        locacao.setVlrTotal(vlrRoupa + vlrTraje);
-        Validar.Data(jtfData.getText());
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date data = null;
         try {
-            data = formato.parse(jtfData.getText());
-        } catch (ParseException ex) {
+            Locacao locacao = new Locacao();
+            locacao.setTrajes(trajesAdicionadas);
+            locacao.setCliente(cliente);
+            Validar.continuar(cliente.getIdCliente());
+            FuncionarioDao funcionario = new FuncionarioDao();
+            locacao.setFuncionario(funcionario.lerPorId(2));
+            Validar.continuar(locacao.getFuncionario().getIdFuncionario());
+            locacao.setVlrTotal(vlrRoupa + vlrTraje);
+            Validar.Data(jtfData.getText());
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            Date data = formato.parse(jtfData.getText());
+            locacao.setDataEvento(data);
+            locacao.setDataLocacao(Obter.DataAtual());
+            LocacaoDao locacaoDao = new LocacaoDao();
+            locacaoDao.cadastrar(locacao);
+        } catch (Exception e) {
+            JPane.show.STRING("AVISO!", "Por favor, preencher todos os campos!");
         }
-        locacao.setDataEvento(data);
-//            LocacaoDao locacaoDao = new Lo
-//            LocacaoDao locacaocacaoDao();
-//            locacaoDao.cadastrar(locacao);
-//        } catch (Exception e) {
-//        }
     }
 
     public void atualizarMoney() {

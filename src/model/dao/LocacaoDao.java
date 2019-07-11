@@ -60,14 +60,15 @@ public class LocacaoDao extends Dao implements DaoI<Locacao>{
         try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement(
-                    "insert into locacao(datalocacao, dataevento, vlrtotal, dtdevolucao, idfuncionario, tipodelocacao from locacao)"
+                    "insert into locacao(datalocacao, dataevento, vlrtotal, dtdevolucao, idfuncionario, tipodelocacao) "
                     + " values(?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
-            stmt.setDate(1, (Date) obj.getDataLocacao());
-            stmt.setDate(2, (Date) obj.getDataEvento());
+            stmt.setDate(1, (new Date(obj.getDataLocacao().getTime())));
+            stmt.setDate(2, (new Date(obj.getDataEvento().getTime())));
             stmt.setDouble(3, obj.getVlrTotal());
             stmt.setDate(4, (Date) obj.getDataDevolucao());
             stmt.setInt(5, obj.getFuncionario().getIdFuncionario());
             stmt.setInt(6, obj.getTipoDeLocacao());
+            System.out.println(stmt.getResultSet());
             ResultSet rs;
             if (stmt.executeUpdate() > 0) {
                 rs = stmt.getGeneratedKeys();
