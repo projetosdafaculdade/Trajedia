@@ -1,6 +1,7 @@
 package model.vo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Locacao {
 
@@ -12,9 +13,38 @@ public class Locacao {
     private Funcionario funcionario;
     private int tipoDeLocacao;
     private int ativo;
+    private Cliente cliente;
+    private List<Roupa> roupas;
+    private List<Traje> trajes;
 
     public Locacao() {
     }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<Roupa> getRoupas() {
+        return roupas;
+    }
+
+    public void setRoupas(List<Roupa> roupas) {
+        this.roupas = roupas;
+    }
+
+    public List<Traje> getTrajes() {
+        return trajes;
+    }
+
+    public void setTrajes(List<Traje> trajes) {
+        this.trajes = trajes;
+    }
+    
+    
 
     public Locacao(int idLocacao, Date dataLocacao, Date dataEvento, Date dataDevolucao, double vlrTotal, Funcionario funcionario, int tipoDeLocacao, int ativo) {
         this.idLocacao = idLocacao;

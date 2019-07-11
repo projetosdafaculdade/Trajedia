@@ -68,47 +68,52 @@ public class ClienteController {
     }
 
     public void adicionarCliente() {
-        model.vo.Cliente cliente = new model.vo.Cliente();
-        ClienteDao clienteDao = new ClienteDao();
-        EnderecoDao enderecoDao = new EnderecoDao();
-        List<Endereco> enderecos = enderecoDao.listar();
-        //DEFININDO NOME
-        String nome = JPane.input.STRING("Inserir", "Digite o nome do cliente:");
-        Validar.continuar(nome);
-        //DEFININDO CPF
-        String cpf = JPane.input.STRING("Inserir", "Digite o CPF do cliente:");
-        Validar.continuar(cpf);
-        //DEFININDO Telefone
-        String telefone = JPane.input.STRING("Inserir", "Digite o telefone do cliente:");
-        Validar.continuar(telefone);
-        //DEFININDO CATEGORIA
-        SelectOptions selectOptions = new SelectOptions();
-        for (Endereco endereco : enderecos) {
-            selectOptions.adicionar(endereco.getBairro());
+        try {
+            model.vo.Cliente cliente = new model.vo.Cliente();
+            ClienteDao clienteDao = new ClienteDao();
+            EnderecoDao enderecoDao = new EnderecoDao();
+            List<Endereco> enderecos = enderecoDao.listar();
+            //DEFININDO NOME
+            String nome = JPane.input.STRING("Inserir", "Digite o nome do cliente:");
+            Validar.continuar(nome);
+            //DEFININDO CPF
+            String cpf = JPane.input.STRING("Inserir", "Digite o CPF do cliente:");
+            Validar.continuar(cpf);
+            //DEFININDO Telefone
+            String telefone = JPane.input.STRING("Inserir", "Digite o telefone do cliente:");
+            Validar.continuar(telefone);
+            //DEFININDO CATEGORIA
+            SelectOptions selectOptions = new SelectOptions();
+            for (Endereco endereco : enderecos) {
+                selectOptions.adicionar(endereco.getBairro());
+            }
+            selectOptions.setTitulo("Selecione um Endereço");
+            selectOptions.instanciar(selectOptions);
+            Validar.continuar(selectOptions.getRetorno());
+            //SETANDO E CADASTRANDO
+            cliente.setCpf(cpf);
+            cliente.setEndereco(enderecos.get(selectOptions.getIndice()));
+            cliente.setNome(nome);
+            cliente.setTelefone(telefone);
+            clienteDao.cadastrar(cliente);
+            listarNaTabela();
+        } catch (Exception e) {
         }
-        selectOptions.setTitulo("Selecione um Endereço");
-        selectOptions.instanciar(selectOptions);
-        Validar.continuar(selectOptions.getRetorno());
-        //SETANDO E CADASTRANDO
-        cliente.setCpf(cpf);
-        cliente.setEndereco(enderecos.get(selectOptions.getIndice()));
-        cliente.setNome(nome);
-        cliente.setTelefone(telefone);
-        clienteDao.cadastrar(cliente);
-        listarNaTabela();
-
     }
 
     public void removerCliente() {
-        if (tableCliente.getSelectedRow() >= 0) {
-            DefaultTableModel model = (DefaultTableModel) tableCliente.getModel();
-            int linhaSelecionada = tableCliente.getSelectedRow();
-            clienteDao = new ClienteDao();
-            clienteDao.deletar(clientes.get(linhaSelecionada).getIdCliente());
-            JPane.show.STRING("Alerta!", clientes.get(linhaSelecionada).getNome() + " foi excluído!");
-            listarNaTabela();
-        } else {
-            JPane.show.STRING("AVISO!", "Para excluir, escolha uma linha!");
+        try {
+            if (tableCliente.getSelectedRow() >= 0) {
+                DefaultTableModel model = (DefaultTableModel) tableCliente.getModel();
+                int linhaSelecionada = tableCliente.getSelectedRow();
+                clienteDao = new ClienteDao();
+                clienteDao.deletar(clientes.get(linhaSelecionada).getIdCliente());
+                JPane.show.STRING("Alerta!", clientes.get(linhaSelecionada).getNome() + " foi excluído!");
+                listarNaTabela();
+            } else {
+                JPane.show.STRING("AVISO!", "Para excluir, escolha uma linha!");
+            }
+        } catch (Exception e) {
         }
     }
 
@@ -117,42 +122,45 @@ public class ClienteController {
     }
 
     public void editarCliente() {
-        if (tableCliente.getSelectedRow() >= 0) {
-            model.vo.Cliente cliente = this.clientes.get(tableCliente.getSelectedRow());
-            ClienteDao clienteDao = new ClienteDao();
-            List<model.vo.Cliente> clientes = clienteDao.listar();
-            try {
-                EnderecoDao enderecoDao = new EnderecoDao();
-                List<Endereco> enderecos = enderecoDao.listar();
-                //DEFININDO NOME
-                String nome = JPane.input.STRING("Inserir", "Digite o nome do cliente:");
-                Validar.continuar(nome);
-                //DEFININDO CPF
-                String cpf = JPane.input.STRING("Inserir", "Digite o CPF do cliente:");
-                Validar.continuar(cpf);
-                //DEFININDO Telefone
-                String telefone = JPane.input.STRING("Inserir", "Digite o telefone do cliente:");
-                Validar.continuar(telefone);
-                //DEFININDO CATEGORIA
-                SelectOptions selectOptions = new SelectOptions();
-                for (Endereco endereco : enderecos) {
-                    selectOptions.adicionar(endereco.getBairro());
-                }
-                selectOptions.setTitulo("Selecione um Endereço");
-                selectOptions.instanciar(selectOptions);
-                Validar.continuar(selectOptions.getRetorno());
-                //SETANDO E CADASTRANDO
-                cliente.setCpf(cpf);
-                cliente.setEndereco(enderecos.get(selectOptions.getIndice()));
-                cliente.setNome(nome);
-                cliente.setTelefone(telefone);
-                clienteDao.alterar(cliente);
-                listarNaTabela();
-            } catch (Exception e) {
+        try {
+            if (tableCliente.getSelectedRow() >= 0) {
+                model.vo.Cliente cliente = this.clientes.get(tableCliente.getSelectedRow());
+                ClienteDao clienteDao = new ClienteDao();
+                List<model.vo.Cliente> clientes = clienteDao.listar();
+                try {
+                    EnderecoDao enderecoDao = new EnderecoDao();
+                    List<Endereco> enderecos = enderecoDao.listar();
+                    //DEFININDO NOME
+                    String nome = JPane.input.STRING("Inserir", "Digite o nome do cliente:");
+                    Validar.continuar(nome);
+                    //DEFININDO CPF
+                    String cpf = JPane.input.STRING("Inserir", "Digite o CPF do cliente:");
+                    Validar.continuar(cpf);
+                    //DEFININDO Telefone
+                    String telefone = JPane.input.STRING("Inserir", "Digite o telefone do cliente:");
+                    Validar.continuar(telefone);
+                    //DEFININDO CATEGORIA
+                    SelectOptions selectOptions = new SelectOptions();
+                    for (Endereco endereco : enderecos) {
+                        selectOptions.adicionar(endereco.getBairro());
+                    }
+                    selectOptions.setTitulo("Selecione um Endereço");
+                    selectOptions.instanciar(selectOptions);
+                    Validar.continuar(selectOptions.getRetorno());
+                    //SETANDO E CADASTRANDO
+                    cliente.setCpf(cpf);
+                    cliente.setEndereco(enderecos.get(selectOptions.getIndice()));
+                    cliente.setNome(nome);
+                    cliente.setTelefone(telefone);
+                    clienteDao.alterar(cliente);
+                    listarNaTabela();
+                } catch (Exception e) {
 
+                }
+            } else {
+                JPane.show.STRING("AVISO!", "Para editar, escolha uma linha!");
             }
-        } else {
-            JPane.show.STRING("AVISO!", "Para editar, escolha uma linha!");
+        } catch (Exception e) {
         }
     }
 

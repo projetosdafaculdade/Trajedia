@@ -1,6 +1,5 @@
 package controller;
 
-import model.vo.Categoria;
 import view.Agendar;
 import view.Alugar;
 import view.Cliente;

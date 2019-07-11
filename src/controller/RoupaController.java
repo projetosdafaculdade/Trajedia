@@ -3,7 +3,6 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.dao.CategoriaDao;
@@ -61,10 +60,11 @@ public class RoupaController {
     }
 
     public void adicionarRoupa() {
-        Roupa roupa = new Roupa();
-        CategoriaDao categoriaDao = new CategoriaDao();
-        List<Categoria> categorias = categoriaDao.listar();
- 
+        try {
+            Roupa roupa = new Roupa();
+            CategoriaDao categoriaDao = new CategoriaDao();
+            List<Categoria> categorias = categoriaDao.listar();
+
             //DEFININDO NOME
             String nome = JPane.input.STRING("Inserir", "Digite o nome da roupa:");
             Validar.continuar(nome);
@@ -87,18 +87,24 @@ public class RoupaController {
             roupaDao.cadastrar(roupa);
             listarNaTabela();
 
+        } catch (Exception e) {
+        }
     }
 
     public void removerRoupa() {
-        if (tableRoupa.getSelectedRow() >= 0) {
-            DefaultTableModel model = (DefaultTableModel) tableRoupa.getModel();
-            int linhaSelecionada = tableRoupa.getSelectedRow();
-            roupaDao = new RoupaDao();
-            roupaDao.deletar(roupas.get(linhaSelecionada).getIdRoupa());
-            JPane.show.STRING("Alerta!", roupas.get(linhaSelecionada).getNome() + " foi excluída!");
-            listarNaTabela();
-        } else {
-            JPane.show.STRING("AVISO!", "Para excluir, escolha uma linha!");
+        try {
+            if (tableRoupa.getSelectedRow() >= 0) {
+                DefaultTableModel model = (DefaultTableModel) tableRoupa.getModel();
+                int linhaSelecionada = tableRoupa.getSelectedRow();
+                roupaDao = new RoupaDao();
+                roupaDao.deletar(roupas.get(linhaSelecionada).getIdRoupa());
+                JPane.show.STRING("Alerta!", roupas.get(linhaSelecionada).getNome() + " foi excluída!");
+                listarNaTabela();
+            } else {
+                JPane.show.STRING("AVISO!", "Para excluir, escolha uma linha!");
+            }
+
+        } catch (Exception e) {
         }
     }
 

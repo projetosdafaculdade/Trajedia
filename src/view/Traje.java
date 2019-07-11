@@ -32,7 +32,7 @@ public class Traje extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Traje", "Desconto", "Valor"
+                "ID", "Traje", "Desconto %", "Valor"
             }
         ));
         jScrollPane1.setViewportView(tableTraje);

@@ -58,9 +58,13 @@ public class TrajeController {
     }
 
     public void adicionarTraje() {
-        RoupaTrajeAdd adicionarRoupaTraje = new RoupaTrajeAdd(null, true, null);
-        adicionarRoupaTraje.setVisible(true);
-        listarNaTabela();
+        try {
+            RoupaTrajeAdd adicionarRoupaTraje = new RoupaTrajeAdd(null, true, null);
+            adicionarRoupaTraje.setVisible(true);
+            listarNaTabela();
+
+        } catch (Exception e) {
+        }
     }
 
     public void fechar() {

@@ -1,31 +1,16 @@
 package controller;
 
-import factory.Conexao;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import model.dao.CategoriaDao;
 import model.dao.FornecedorDao;
 import model.dao.EnderecoDao;
-import model.dao.RoupaDao;
-import model.vo.Categoria;
 import model.vo.Endereco;
-import model.vo.Roupa;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 import util.JPane;
 import util.SelectOptions;
 import util.Validar;
-import view.Fornecedor;
 
 public class FornecedorController {
 
@@ -73,42 +58,50 @@ public class FornecedorController {
     }
 
     public void adicionarFornecedor() {
-        model.vo.Fornecedor fornecedor = new model.vo.Fornecedor();
-        FornecedorDao fornecedorDao = new FornecedorDao();
-        EnderecoDao enderecoDao = new EnderecoDao();
-        List<Endereco> enderecos = enderecoDao.listar();
-        //DEFININDO NOME
-        String razaoSocial = JPane.input.STRING("Inserir", "Digite o nome do fornecedor:");
-        Validar.continuar(razaoSocial);
-        //DEFININDO Telefone
-        String telefone = JPane.input.STRING("Inserir", "Digite o telefone do fornecedor:");
-        Validar.continuar(telefone);
-        //DEFININDO CATEGORIA
-        SelectOptions selectOptions = new SelectOptions();
-        for (Endereco endereco : enderecos) {
-            selectOptions.adicionar(endereco.getBairro());
+        try {
+            model.vo.Fornecedor fornecedor = new model.vo.Fornecedor();
+            FornecedorDao fornecedorDao = new FornecedorDao();
+            EnderecoDao enderecoDao = new EnderecoDao();
+            List<Endereco> enderecos = enderecoDao.listar();
+            //DEFININDO NOME
+            String razaoSocial = JPane.input.STRING("Inserir", "Digite o nome do fornecedor:");
+            Validar.continuar(razaoSocial);
+            //DEFININDO Telefone
+            String telefone = JPane.input.STRING("Inserir", "Digite o telefone do fornecedor:");
+            Validar.continuar(telefone);
+            //DEFININDO CATEGORIA
+            SelectOptions selectOptions = new SelectOptions();
+            for (Endereco endereco : enderecos) {
+                selectOptions.adicionar(endereco.getBairro());
+            }
+            selectOptions.setTitulo("Selecione um Endereço");
+            selectOptions.instanciar(selectOptions);
+            Validar.continuar(selectOptions.getRetorno());
+            //SETANDO E CADASTRANDO
+            fornecedor.setRazaoSocial(razaoSocial);
+            fornecedor.setEndereco(enderecos.get(selectOptions.getIndice()));
+            fornecedor.setTelefone(telefone);
+            fornecedorDao.cadastrar(fornecedor);
+            listarNaTabela();
+
+        } catch (Exception e) {
         }
-        selectOptions.setTitulo("Selecione um Endereço");
-        selectOptions.instanciar(selectOptions);
-        Validar.continuar(selectOptions.getRetorno());
-        //SETANDO E CADASTRANDO
-        fornecedor.setRazaoSocial(razaoSocial);
-        fornecedor.setEndereco(enderecos.get(selectOptions.getIndice()));
-        fornecedor.setTelefone(telefone);
-        fornecedorDao.cadastrar(fornecedor);
-        listarNaTabela();
     }
 
     public void removerFornecedor() {
-        if (tableFornecedor.getSelectedRow() >= 0) {
-            DefaultTableModel model = (DefaultTableModel) tableFornecedor.getModel();
-            int linhaSelecionada = tableFornecedor.getSelectedRow();
-            fornecedorDao = new FornecedorDao();
-            fornecedorDao.deletar(fornecedors.get(linhaSelecionada).getIdFornecedor());
-            JPane.show.STRING("Alerta!", fornecedors.get(linhaSelecionada).getRazaoSocial() + " foi excluído!");
-            listarNaTabela();
-        } else {
-            JPane.show.STRING("AVISO!", "Para excluir, escolha uma linha!");
+        try {
+            if (tableFornecedor.getSelectedRow() >= 0) {
+                DefaultTableModel model = (DefaultTableModel) tableFornecedor.getModel();
+                int linhaSelecionada = tableFornecedor.getSelectedRow();
+                fornecedorDao = new FornecedorDao();
+                fornecedorDao.deletar(fornecedors.get(linhaSelecionada).getIdFornecedor());
+                JPane.show.STRING("Alerta!", fornecedors.get(linhaSelecionada).getRazaoSocial() + " foi excluído!");
+                listarNaTabela();
+            } else {
+                JPane.show.STRING("AVISO!", "Para excluir, escolha uma linha!");
+            }
+
+        } catch (Exception e) {
         }
     }
 
@@ -152,5 +145,4 @@ public class FornecedorController {
         }
     }
 
- 
 }
