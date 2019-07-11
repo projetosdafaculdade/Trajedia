@@ -9,14 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.vo.Estoque;
 import model.vo.Roupa;
 import model.vo.Traje;
 
-/**
- *
- * @author Alunos
- */
+
 public class TrajeDao extends Dao implements DaoI<Traje> {
 
     public TrajeDao() {
@@ -31,7 +27,7 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
 "	NOME\n" +
 "    , IDTRAJE\n" +
 "    , DESCONTO\n" +
-"    , (SELECT (SUM(VLR) * DESCONTO / 100) FROM ROUPA INNER JOIN ROUPADOTRAJE ON ROUPADOTRAJE.IDROUPA = ROUPA.IDROUPA WHERE IDTRAJE = IDTRAJE)  AS VLRTRAJE\n" +
+"    , (SELECT (SUM(VLR) * (100 - DESCONTO) / 100) FROM ROUPA INNER JOIN ROUPADOTRAJE ON ROUPADOTRAJE.IDROUPA = ROUPA.IDROUPA WHERE IDTRAJE = TRAJE.IDTRAJE)  AS VLRTRAJE\n" +
 "FROM \n" +
 "	TRAJE\n" +
 "WHERE \n" +

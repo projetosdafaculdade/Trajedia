@@ -27,4 +27,20 @@ public class RelatorioController {
         }
         JasperViewer.viewReport(jPrint, false);
     }
+
+    public void trajesRoupas() {
+        JasperReport jReport = null;
+        try {         
+            jReport = JasperCompileManager.compileReport("TrajesRoupasRespectivas.jrxml");
+        } catch (JRException ex) {
+            System.out.println("ERROR:"+ex.getMessage());
+        }
+        JasperPrint jPrint = null;
+        try {
+            jPrint = JasperFillManager.fillReport(jReport, null, Conexao.getConexao());
+        } catch (JRException ex) {
+            System.out.println("ERROR:"+ex.getMessage());
+        }
+        JasperViewer.viewReport(jPrint, false);
+    }
 }

@@ -1,32 +1,30 @@
 package controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
-import model.dao.CategoriaDao;
 import model.dao.ClienteDao;
 import model.dao.FuncionarioDao;
-import model.dao.LocacaoDao;
 import model.dao.RoupaDao;
 import model.dao.TrajeDao;
-import model.vo.Categoria;
 import model.vo.Cliente;
 import model.vo.Locacao;
 import model.vo.Roupa;
-import model.vo.RoupaTraje;
 import model.vo.Traje;
+import util.ConverterDouble;
 import util.JPane;
 import util.SelectOptions;
 import util.Validar;
 import view.Alugar;
-import view.Inicial;
-import view.RoupaTrajeAdd;
 
 public class AlugarController {
 
@@ -37,6 +35,7 @@ public class AlugarController {
     private javax.swing.JButton btnRemoverTraje;
     private javax.swing.JButton btnSelecionarCliente;
     private javax.swing.JTextField jtfCliente;
+    private javax.swing.JTextField jtfData;
     private javax.swing.JTextField jtfDesconto;
     private javax.swing.JLabel lblValorTotal;
     private javax.swing.JTable tableRoupas;
@@ -46,9 +45,12 @@ public class AlugarController {
     private Traje traje;
     private List<Roupa> roupasAdicionadas = new ArrayList<>();
     private List<Traje> trajesAdicionadas = new ArrayList<>();
+    private double vlrRoupa;
+    private double vlrTraje;
 
-    public AlugarController(Alugar alugar, JButton btnAdicionarRoupa, JButton btnAdicionarTraje, JButton btnAlugar, JButton btnRemoverRoupa, JButton btnSelecionarCliente, JTextField jtfCliente, JTextField jtfDesconto, JLabel lblValorTotal, JTable tableRoupas, JTable tableTrajes, Traje traje) {
+    public AlugarController(Alugar alugar, JTextField jtfData, JButton btnAdicionarRoupa, JButton btnAdicionarTraje, JButton btnAlugar, JButton btnRemoverRoupa, JButton btnSelecionarCliente, JTextField jtfCliente, JTextField jtfDesconto, JLabel lblValorTotal, JTable tableRoupas, JTable tableTrajes, Traje traje) {
         this.alugar = alugar;
+        this.jtfData = jtfData;
         this.btnAdicionarRoupa = btnAdicionarRoupa;
         this.btnAdicionarTraje = btnAdicionarTraje;
         this.btnAlugar = btnAlugar;
@@ -70,7 +72,6 @@ public class AlugarController {
         roupaDao = new RoupaDao();
         roupasAdicionadas = roupaDao.listar();
         return roupaDao.listar();
-
     }
 
     public void listarNaTabelaRoupa() {
@@ -80,7 +81,9 @@ public class AlugarController {
             model.removeRow(qtd - i - 1);
         }
         model = (DefaultTableModel) tableRoupas.getModel();
+        vlrRoupa = 0;
         for (model.vo.Roupa roupa : roupasAdicionadas) {
+            vlrRoupa += roupa.getVlr();
             Object[] linha = {
                 roupa.getIdRoupa(),
                 roupa.getNome(),
@@ -89,6 +92,7 @@ public class AlugarController {
             };
             model.addRow(linha);
         }
+        atualizarMoney();
     }
 
     public void adicionarRoupa() {
@@ -141,7 +145,9 @@ public class AlugarController {
             model.removeRow(qtd - i - 1);
         }
         model = (DefaultTableModel) tableTrajes.getModel();
+        vlrTraje = 0;
         for (model.vo.Traje traje : trajesAdicionadas) {
+            vlrTraje += traje.getValorTraje();
             Object[] linha = {
                 traje.getIdTraje(),
                 traje.getNome(),
@@ -150,6 +156,7 @@ public class AlugarController {
             };
             model.addRow(linha);
         }
+        atualizarMoney();
     }
 
     public void adicionarTraje() {
@@ -206,19 +213,40 @@ public class AlugarController {
 
     public void alugar() {
 //        try {
-            Locacao locacao = new Locacao();
-            locacao.setTrajes(trajesAdicionadas);
-            locacao.setCliente(cliente);
-            FuncionarioDao funcionario = new FuncionarioDao();
-            locacao.setFuncionario(funcionario.lerPorId(idFuncionario));
-            System.out.println(funcionario.lerPorId(InicialController.idFuncionario).getSenha());
-            System.out.println(funcionario.lerPorId(InicialController.idFuncionario).getIdFuncionario());
-            System.out.println(funcionario.lerPorId(InicialController.idFuncionario).getUsuario());
+        Locacao locacao = new Locacao();
+        locacao.setTrajes(trajesAdicionadas);
+        locacao.setCliente(cliente);
+        FuncionarioDao funcionario = new FuncionarioDao();
+        locacao.setFuncionario(funcionario.lerPorId(0));
+        locacao.setVlrTotal(vlrRoupa + vlrTraje);
+        Validar.Data(jtfData.getText());
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = null;
+        try {
+            data = formato.parse(jtfData.getText());
+        } catch (ParseException ex) {
+        }
+        locacao.setDataEvento(data);
 //            LocacaoDao locacaoDao = new Lo
 //            LocacaoDao locacaocacaoDao();
 //            locacaoDao.cadastrar(locacao);
 //        } catch (Exception e) {
 //        }
+    }
+
+    public void atualizarMoney() {
+        lblValorTotal.setText("R$ " + ((vlrRoupa + vlrTraje) - (ConverterDouble.Converter(jtfDesconto.getText().replaceAll(",", ".")))));
+    }
+
+    public void formatarData() {
+        if (jtfData.getText().length() == 8) {
+            if (jtfData.getText().replaceAll("[^0-9]", "").length() == 8) {
+                String dia = jtfData.getText().substring(0, 2);
+                String mes = jtfData.getText().substring(2, 4);
+                String ano = jtfData.getText().substring(4, 8);
+                jtfData.setText(dia + "/" + mes + "/" + ano);
+            }
+        }
     }
 
 }

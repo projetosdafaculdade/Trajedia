@@ -37,6 +37,7 @@ public class Inicial extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        btnTrajesRelatorio = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trajedia");
@@ -168,6 +169,14 @@ public class Inicial extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem3);
 
+        btnTrajesRelatorio.setText("Trajes");
+        btnTrajesRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTrajesRelatorioActionPerformed(evt);
+            }
+        });
+        jMenu4.add(btnTrajesRelatorio);
+
         jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
@@ -247,6 +256,10 @@ public class Inicial extends javax.swing.JFrame {
        relatorioController.cliente();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void btnTrajesRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrajesRelatorioActionPerformed
+     relatorioController.trajesRoupas();
+    }//GEN-LAST:event_btnTrajesRelatorioActionPerformed
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -276,6 +289,7 @@ public class Inicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnFuncionario;
     private javax.swing.JMenuItem btnRoupa;
     private javax.swing.JMenuItem btnTraje;
+    private javax.swing.JMenuItem btnTrajesRelatorio;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;

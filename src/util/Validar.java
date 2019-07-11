@@ -31,7 +31,7 @@ public class Validar {
         }
     }
 
-     public static void continuar(String string) {
+    public static void continuar(String string) {
         if (string == null) {
             Double.parseDouble(string);
         }
@@ -57,4 +57,19 @@ public class Validar {
             return false;
         }
     }
+
+    public static void Data(String data) {
+        if (data.length() == 10) {
+            if (Validar.DOUBLE(data.substring(0, 2))
+                    && Validar.DOUBLE(data.substring(3, 5))
+                    && Validar.DOUBLE(data.substring(6, 10))) {
+            } else {
+                JPane.show.STRING("Aviso!", "Data incorreta!");
+                Integer.parseInt("ERRO");
+            }
+        } else {
+            JPane.show.STRING("Aviso!", "Data incorreta!");
+        }
+    }
+
 }
