@@ -16,6 +16,7 @@ public class InicialController {
     public InicialController() {
     }
 
+
     public void abrirCliente() {
         Cliente cliente = new Cliente();
         cliente.setVisible(true);

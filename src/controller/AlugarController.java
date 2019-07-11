@@ -11,6 +11,7 @@ import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
 import model.dao.CategoriaDao;
 import model.dao.ClienteDao;
+import model.dao.FuncionarioDao;
 import model.dao.LocacaoDao;
 import model.dao.RoupaDao;
 import model.dao.TrajeDao;
@@ -24,6 +25,7 @@ import util.JPane;
 import util.SelectOptions;
 import util.Validar;
 import view.Alugar;
+import view.Inicial;
 import view.RoupaTrajeAdd;
 
 public class AlugarController {
@@ -62,6 +64,7 @@ public class AlugarController {
 
     private RoupaDao roupaDao;
     private TrajeDao trajeDao;
+    private Cliente cliente;
 
     public List<Roupa> listarRoupas() {
         roupaDao = new RoupaDao();
@@ -194,6 +197,7 @@ public class AlugarController {
             selectOptions.instanciar(selectOptions);
             selectOptions.getTitulo();
             Validar.continuar(selectOptions.getRetorno());
+            cliente = clientes.get(selectOptions.getIndice());
             //SETANDO E CADASTRANDO 
             jtfCliente.setText(clientes.get(selectOptions.getIndice()).getIdCliente() + " - " + selectOptions.getRetorno());
         } catch (Exception e) {
@@ -201,12 +205,20 @@ public class AlugarController {
     }
 
     public void alugar() {
-        try {
+//        try {
             Locacao locacao = new Locacao();
-            LocacaoDao locacaoDao = new LocacaoDao();
-            locacaoDao.cadastrar(locacao);
-        } catch (Exception e) {
-        }
+            locacao.setTrajes(trajesAdicionadas);
+            locacao.setCliente(cliente);
+            FuncionarioDao funcionario = new FuncionarioDao();
+            locacao.setFuncionario(funcionario.lerPorId(idFuncionario));
+            System.out.println(funcionario.lerPorId(InicialController.idFuncionario).getSenha());
+            System.out.println(funcionario.lerPorId(InicialController.idFuncionario).getIdFuncionario());
+            System.out.println(funcionario.lerPorId(InicialController.idFuncionario).getUsuario());
+//            LocacaoDao locacaoDao = new Lo
+//            LocacaoDao locacaocacaoDao();
+//            locacaoDao.cadastrar(locacao);
+//        } catch (Exception e) {
+//        }
     }
 
 }

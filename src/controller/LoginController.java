@@ -5,6 +5,7 @@ package controller;
 import javax.swing.JTextField;
 import model.dao.FuncionarioDao;
 import model.vo.Funcionario;
+import util.FuncionarioLogado;
 import util.JPane;
 import view.Inicial;
 import view.Login;
@@ -12,7 +13,8 @@ import view.Login;
 
 
 public class LoginController {
-
+    
+   
     private javax.swing.JTextField jtfSenha;
     private javax.swing.JTextField jtfUsuario;
     private Login login;
@@ -39,7 +41,6 @@ public class LoginController {
             Inicial inicial = new Inicial(funcionarioDoBanco.getIdFuncionario());
             inicial.setVisible(true);
             login.dispose();
-
         } else {
             JPane.show.STRING("AVISO!", "Login ou senha incorreto!");
         }
