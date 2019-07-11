@@ -145,4 +145,4 @@ insert into categoria(NOME) values("Vestido");
 insert into funcionario(USUARIO,SENHA) values("ADMIN","ADMIN");
 UPDATE FUNCIONARIO SET ativo = 0 WHERE IDFUNCIONARIO = 1;
 
-select * from LOCACAO;
+SELECT * FROM LOCACAO;
