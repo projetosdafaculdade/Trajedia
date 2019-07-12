@@ -54,7 +54,7 @@ public class PermissaoDao extends Dao implements DaoI<Permissao> {
 
     @Override
     public int cadastrar(Permissao obj) {
-         try {
+        try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement(
                     "insert into permissao(visualizar, editar, cadastrar, deletar, idtela, idfuncionario)"
@@ -81,7 +81,7 @@ public class PermissaoDao extends Dao implements DaoI<Permissao> {
 
     @Override
     public boolean alterar(Permissao obj) {
-         try {
+        try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement("update permissao"
                     + " set visualizar = ?, editar = ?, cadastrar = ?, deletar = ?, idtela = ?, idfuncionario = ? where idpermissao = ?");
@@ -101,7 +101,7 @@ public class PermissaoDao extends Dao implements DaoI<Permissao> {
 
     @Override
     public boolean deletar(int id) {
-         try {
+        try {
             PreparedStatement stmt;
             stmt = conexao.prepareStatement("update permissao set ativo = 0 where idpermissao = ?");
             stmt.setInt(1, id);
@@ -134,6 +134,38 @@ public class PermissaoDao extends Dao implements DaoI<Permissao> {
                 permissao.getTela().setIdTela(idTela);
                 permissao.getFuncionario().setIdFuncionario(idFuncionario);
                 permissao.setIdPermissao(id);
+                return permissao;
+            }
+            return null;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    public Permissao lerPorId(int idFuncionarioBuscando, int idTelaBuscando) {
+        try {
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement("select idpermissao, idtela, idfuncionario from permissao where ativo = 1 and idfuncionario = ? and idtela = ?");
+            stmt.setInt(1, idFuncionarioBuscando);
+            stmt.setInt(1, idTelaBuscando);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Integer visualizar = rs.getInt("visualizar");
+                Integer editar = rs.getInt("editar");
+                Integer cadastrar = rs.getInt("cadastrar");
+                Integer deletar = rs.getInt("deletar");
+                Integer idTela = rs.getInt("idtela");
+                Integer idFuncionario = rs.getInt("idfuncionario");
+                Permissao permissao = new Permissao();
+                permissao.setVisualizar(visualizar);
+                permissao.setEditar(editar);
+                permissao.setCadastrar(cadastrar);
+                permissao.setDeletar(deletar);
+                permissao.getTela().setIdTela(idTela);
+                permissao.getFuncionario().setIdFuncionario(idFuncionario);
+                permissao.setIdPermissao(rs.getInt("IDPERMISSAO"));
                 return permissao;
             }
             return null;

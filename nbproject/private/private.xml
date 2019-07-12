@@ -3,12 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/Trajedia/src/util/Validar.java</file>
-            <file>file:/C:/xampp/htdocs/Trajedia/src/view/Alugar.java</file>
-            <file>file:/C:/xampp/htdocs/Trajedia/src/view/Login.java</file>
-            <file>file:/C:/xampp/htdocs/Trajedia/src/util/Obter.java</file>
-            <file>file:/C:/xampp/htdocs/Trajedia/src/model/dao/LocacaoDao.java</file>
-            <file>file:/C:/xampp/htdocs/Trajedia/src/controller/AlugarController.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/view/Login.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/view/Devolucao.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/controller/CategoriaController.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/view/RealizarDevolucao.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/controller/InicialController.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/model/dao/TrajeDao.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/view/Alugar.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/model/vo/Locacao.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/model/dao/RoupaVendaDao.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/model/dao/LocacaoDao.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/view/CriarCategoria.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/view/Cliente.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/model/dao/PermissaoDao.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/controller/AlugarController.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/view/Inicial.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/controller/PermissaoController.java</file>
+            <file>file:/C:/Users/Alunos/Documents/GitHub/Trajedia/src/controller/ClienteController.java</file>
         </group>
     </open-files>
 </project-private>

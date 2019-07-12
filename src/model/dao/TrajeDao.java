@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import model.vo.Roupa;
 import model.vo.Traje;
 
-
 public class TrajeDao extends Dao implements DaoI<Traje> {
 
     public TrajeDao() {
@@ -23,18 +22,19 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
     public List<Traje> listar() {
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("SELECT \n" +
-"	NOME\n" +
-"    , IDTRAJE\n" +
-"    , DESCONTO\n" +
-"    , (SELECT (SUM(VLR) * (100 - DESCONTO) / 100) FROM ROUPA INNER JOIN ROUPADOTRAJE ON ROUPADOTRAJE.IDROUPA = ROUPA.IDROUPA WHERE IDTRAJE = TRAJE.IDTRAJE)  AS VLRTRAJE\n" +
-"FROM \n" +
-"	TRAJE\n" +
-"WHERE \n" +
-"	ATIVO = 1 \n" +
-"ORDER BY \n" +
-"	IDTRAJE ASC",
+            stmt = conexao.prepareStatement("SELECT \n"
+                    + "	NOME\n"
+                    + "    , IDTRAJE\n"
+                    + "    , DESCONTO\n"
+                    + "    , (SELECT (SUM(VLR) * (100 - DESCONTO) / 100) FROM ROUPA INNER JOIN ROUPADOTRAJE ON ROUPADOTRAJE.IDROUPA = ROUPA.IDROUPA WHERE IDTRAJE = TRAJE.IDTRAJE)  AS VLRTRAJE\n"
+                    + "FROM \n"
+                    + "	TRAJE\n"
+                    + "WHERE \n"
+                    + "	ATIVO = 1 \n"
+                    + "ORDER BY \n"
+                    + "	IDTRAJE ASC",
                     PreparedStatement.RETURN_GENERATED_KEYS);
+
             ResultSet result = stmt.executeQuery();
             List<Traje> lista = new ArrayList<Traje>();
             while (result.next()) {
@@ -108,17 +108,16 @@ public class TrajeDao extends Dao implements DaoI<Traje> {
     public Traje lerPorId(int id) {
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("select idtraje, desconto, idfornecedor from traje where ativo = 1 and idtraje = ?");
+            stmt = conexao.prepareStatement("select idtraje,NOME, desconto, (SELECT (SUM(VLR) * (100 - DESCONTO) / 100) FROM ROUPA INNER JOIN ROUPADOTRAJE ON ROUPADOTRAJE.IDROUPA = ROUPA.IDROUPA WHERE IDTRAJE = TRAJE.IDTRAJE)  AS VLRTRAJE from traje where ativo = 1 and idtraje = ?");
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Integer desconto = rs.getInt("desconto");
-                Integer idFornecedor = rs.getInt("idfornecedor");
-                Traje traje = new Traje();
-                traje.setDesconto(desconto);
-                traje.getFornecedor().setIdFornecedor(idFornecedor);
-                traje.setIdTraje(id);
-                return traje;
+                Traje t = new Traje();
+                t.setIdTraje(rs.getInt("idtraje"));
+                t.setNome(rs.getString("NOME"));
+                t.setDesconto(rs.getInt("desconto"));
+                t.setValorTraje(rs.getDouble("VLRTRAJE"));
+                return t;
             }
             return null;
 

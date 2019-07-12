@@ -1,5 +1,7 @@
 package controller;
 
+import model.dao.PermissaoDao;
+import util.JPane;
 import view.Agendar;
 import view.Alugar;
 import view.Cliente;
@@ -8,62 +10,124 @@ import view.Endereco;
 import view.Fornecedor;
 import view.Funcionario;
 import view.Permissao;
+import view.RealizarDevolucao;
 import view.Roupa;
 import view.Traje;
 
 public class InicialController {
 
-    public InicialController() {
+    private int idFuncionario;
+    PermissaoDao permissaoDao;
+
+    public InicialController(int idFuncionario) {
+        this.idFuncionario = idFuncionario;
+        permissaoDao = new PermissaoDao();
     }
 
     public void abrirCliente() {
-        Cliente cliente = new Cliente();
-        cliente.setVisible(true);
+        int tela = 1;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            Cliente cliente = new Cliente();
+            cliente.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem acesso a essa tela");
+        }
     }
 
     public void abrirRoupa() {
-        Roupa roupa = new Roupa();
-        roupa.setVisible(true);
+        int tela = 2;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            Roupa roupa = new Roupa();
+            roupa.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem permissão nessa tela");
+        }
     }
 
     public void abrirTraje() {
-        Traje traje = new Traje();
-        traje.setVisible(true);
+        int tela = 3;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            Traje traje = new Traje();
+            traje.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem permissão nessa tela");
+        }
     }
 
     public void abrirFuncionario() {
-        Funcionario funcionario = new Funcionario();
-        funcionario.setVisible(true);
+        int tela = 4;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            Funcionario funcionario = new Funcionario();
+            funcionario.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem permissão nessa tela");
+        }
     }
 
     public void abrirCategoria() {
-        CriarCategoria categoria = new CriarCategoria();
-        categoria.setVisible(true);
+        int tela = 5;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            CriarCategoria categoria = new CriarCategoria();
+            categoria.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem permissão nessa tela");
+        }
     }
 
     public void abrirFornecedor() {
-        Fornecedor fornecedor = new Fornecedor();
-        fornecedor.setVisible(true);
+        int tela = 6;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            Fornecedor fornecedor = new Fornecedor();
+            fornecedor.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem permissão nessa tela");
+        }
     }
 
     public void abrirEndereco() {
-        Endereco endereco = new Endereco();
-        endereco.setVisible(true);
+        int tela = 7;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            Endereco endereco = new Endereco();
+            endereco.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem permissão nessa tela");
+        }
     }
 
     public void agendar() {
-        Agendar agendar = new Agendar();
-        agendar.setVisible(true);
+        int tela = 8;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            Agendar agendar = new Agendar();
+            agendar.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem permissão nessa tela");
+        }
     }
 
     public void alugar() {
-        Alugar alugar = new Alugar();
-        alugar.setVisible(true);
+        int tela = 9;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            Alugar alugar = new Alugar();
+            alugar.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem permissão nessa tela");
+        }
     }
 
     public void permissoes() {
-        Permissao permissao = new Permissao();
-        permissao.setVisible(true);
+        int tela = 10;
+        if ((permissaoDao.lerPorId(idFuncionario, tela)) == null) {
+            Permissao permissao = new Permissao();
+            permissao.setVisible(true);
+        } else {
+            JPane.show.STRING("AVISO!", "Você não tem permissão nessa tela");
+        }
+    }
+
+    public void realizarDevolucao() {
+        RealizarDevolucao realizarDevolucao = new RealizarDevolucao();
+        realizarDevolucao.setVisible(true);
     }
 
 }
+

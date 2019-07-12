@@ -2,12 +2,13 @@ package view;
 
 import controller.AlugarController;
 
-
 public class Alugar extends javax.swing.JFrame {
-    AlugarController alugarController; 
+
+    AlugarController alugarController;
+
     public Alugar() {
         initComponents();
-        alugarController = new AlugarController(this, jtfData,btnAdicionarRoupa, btnAdicionarTraje, btnAlugar, btnRemoverRoupa, btnSelecionarCliente, jtfCliente, jtfDesconto, lblValorTotal, tableRoupas, tableTrajes, null);
+        alugarController = new AlugarController(this, jtfData, btnAdicionarRoupa, btnAdicionarTraje, btnAlugar, btnRemoverRoupa, btnSelecionarCliente, jtfCliente, jtfDesconto, lblValorTotal, tableRoupas, tableTrajes, null);
     }
 
     @SuppressWarnings("unchecked")
@@ -117,7 +118,7 @@ public class Alugar extends javax.swing.JFrame {
             }
         });
 
-        btnAlugar.setText("Alugar");
+        btnAlugar.setText("Realizar Devolução");
         btnAlugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlugarActionPerformed(evt);
@@ -228,32 +229,32 @@ public class Alugar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdicionarRoupaActionPerformed
 
     private void btnRemoverRoupaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverRoupaActionPerformed
-    alugarController.removerRoupa();      
+        alugarController.removerRoupa();
     }//GEN-LAST:event_btnRemoverRoupaActionPerformed
 
     private void btnAdicionarTrajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarTrajeActionPerformed
-    alugarController.adicionarTraje();
+        alugarController.adicionarTraje();
     }//GEN-LAST:event_btnAdicionarTrajeActionPerformed
 
     private void btnRemoverTrajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverTrajeActionPerformed
-          alugarController.removerTraje();
+        alugarController.removerTraje();
 
     }//GEN-LAST:event_btnRemoverTrajeActionPerformed
 
     private void btnSelecionarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarClienteActionPerformed
-    alugarController.escolherCliente();
+        alugarController.escolherCliente();
     }//GEN-LAST:event_btnSelecionarClienteActionPerformed
 
     private void btnAlugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlugarActionPerformed
-    alugarController.alugar();
+        alugarController.alugar();
     }//GEN-LAST:event_btnAlugarActionPerformed
 
     private void jtfDescontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDescontoKeyReleased
-      alugarController.atualizarMoney();
+        alugarController.atualizarMoney();
     }//GEN-LAST:event_jtfDescontoKeyReleased
 
     private void jtfDataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDataKeyReleased
-      alugarController.formatarData();
+        alugarController.formatarData();
     }//GEN-LAST:event_jtfDataKeyReleased
 
     public static void main(String args[]) {

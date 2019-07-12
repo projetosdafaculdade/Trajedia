@@ -17,6 +17,7 @@ public class Locacao {
     private List<Roupa> roupas;
     private List<Traje> trajes;
 
+
     public Locacao() {
     }
 

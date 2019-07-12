@@ -12,7 +12,7 @@ public class Inicial extends javax.swing.JFrame {
     public Inicial(int idFuncionario) {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
-        inicialController = new InicialController();
+        inicialController = new InicialController(idFuncionario);
         this.idFuncionario = idFuncionario;
         relatorioController = new RelatorioController();
     }
@@ -27,7 +27,6 @@ public class Inicial extends javax.swing.JFrame {
         btnCliente = new javax.swing.JMenuItem();
         btnTraje = new javax.swing.JMenuItem();
         btnFuncionario = new javax.swing.JMenuItem();
-        btnFornecedor = new javax.swing.JMenuItem();
         btnCategoria = new javax.swing.JMenuItem();
         btnFornecedor1 = new javax.swing.JMenuItem();
         btnFornecedor2 = new javax.swing.JMenuItem();
@@ -35,6 +34,7 @@ public class Inicial extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         btnTrajesRelatorio = new javax.swing.JMenuItem();
@@ -76,14 +76,6 @@ public class Inicial extends javax.swing.JFrame {
             }
         });
         jMenu1.add(btnFuncionario);
-
-        btnFornecedor.setText("Fornecedor");
-        btnFornecedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFornecedorActionPerformed(evt);
-            }
-        });
-        jMenu1.add(btnFornecedor);
 
         btnCategoria.setText("Categoria");
         btnCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -152,6 +144,14 @@ public class Inicial extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem2);
 
+        jMenuItem4.setText("Devolução");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Relatórios");
@@ -216,10 +216,6 @@ public class Inicial extends javax.swing.JFrame {
         inicialController.abrirCategoria();
     }//GEN-LAST:event_btnCategoriaActionPerformed
 
-    private void btnFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFornecedorActionPerformed
-        inicialController.abrirFornecedor();
-    }//GEN-LAST:event_btnFornecedorActionPerformed
-
     private void btnFornecedor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFornecedor1ActionPerformed
         inicialController.abrirEndereco();
     }//GEN-LAST:event_btnFornecedor1ActionPerformed
@@ -260,6 +256,10 @@ public class Inicial extends javax.swing.JFrame {
      relatorioController.trajesRoupas();
     }//GEN-LAST:event_btnTrajesRelatorioActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+      inicialController.realizarDevolucao();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -283,7 +283,6 @@ public class Inicial extends javax.swing.JFrame {
     private javax.swing.JMenu btnAgendar;
     private javax.swing.JMenuItem btnCategoria;
     private javax.swing.JMenuItem btnCliente;
-    private javax.swing.JMenuItem btnFornecedor;
     private javax.swing.JMenuItem btnFornecedor1;
     private javax.swing.JMenuItem btnFornecedor2;
     private javax.swing.JMenuItem btnFuncionario;
@@ -297,5 +296,6 @@ public class Inicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,13 +1,18 @@
 package view;
 
+import controller.CategoriaController;
+
 /**
  * @author Johnatan Lucas de Souza
  */
-
 public class CriarCategoria extends javax.swing.JFrame {
+
+    CategoriaController categoriaController;
 
     public CriarCategoria() {
         initComponents();
+        categoriaController = new CategoriaController(jTable1);
+        lerCategorias();
     }
 
     @SuppressWarnings("unchecked")
@@ -26,10 +31,7 @@ public class CriarCategoria extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "ID", "Nome"
@@ -40,10 +42,25 @@ public class CriarCategoria extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jToggleButton1.setText("+");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         jToggleButton2.setText("-");
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton2ActionPerformed(evt);
+            }
+        });
 
         jToggleButton3.setText("Editar");
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton3ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Fechar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -106,8 +123,20 @@ public class CriarCategoria extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        categoriaController.fechar();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        categoriaController.adicionarCategoria();
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+        categoriaController.editarCategoria();
+    }//GEN-LAST:event_jToggleButton3ActionPerformed
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        categoriaController.excluirCategoria();
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -137,4 +166,8 @@ public class CriarCategoria extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
+
+    private void lerCategorias() {
+      categoriaController.listarCategoriaNaTabela();
+    }
 }

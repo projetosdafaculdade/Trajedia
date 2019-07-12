@@ -16,10 +16,12 @@ import model.dao.ClienteDao;
 import model.dao.FuncionarioDao;
 import model.dao.LocacaoDao;
 import model.dao.RoupaDao;
+import model.dao.RoupaVendaDao;
 import model.dao.TrajeDao;
 import model.vo.Cliente;
 import model.vo.Locacao;
 import model.vo.Roupa;
+import model.vo.RoupaVenda;
 import model.vo.Traje;
 import util.ConverterDouble;
 import util.JPane;
@@ -27,6 +29,7 @@ import util.Obter;
 import util.SelectOptions;
 import util.Validar;
 import view.Alugar;
+import view.Devolucao;
 
 public class AlugarController {
 
@@ -42,9 +45,11 @@ public class AlugarController {
     private javax.swing.JLabel lblValorTotal;
     private javax.swing.JTable tableRoupas;
     private javax.swing.JTable tableTrajes;
+    private javax.swing.JTable tableAluguel;
     private Alugar alugar;
 
     private Traje traje;
+    private List<Locacao> devolucoes = new ArrayList<>();
     private List<Roupa> roupasAdicionadas = new ArrayList<>();
     private List<Traje> trajesAdicionadas = new ArrayList<>();
     private double vlrRoupa;
@@ -66,9 +71,18 @@ public class AlugarController {
         this.traje = traje;
     }
 
+    public AlugarController(JTable tableAluguel) {
+        this.tableAluguel = tableAluguel;
+    }
+
     private RoupaDao roupaDao;
     private TrajeDao trajeDao;
     private Cliente cliente;
+
+    public AlugarController() {
+    }
+
+
 
     public List<Roupa> listarRoupas() {
         roupaDao = new RoupaDao();
@@ -209,6 +223,7 @@ public class AlugarController {
             cliente = clientes.get(selectOptions.getIndice());
             //SETANDO E CADASTRANDO 
             jtfCliente.setText(clientes.get(selectOptions.getIndice()).getIdCliente() + " - " + selectOptions.getRetorno());
+            System.out.println("cliente ESCOLHIDO:" + cliente.getIdCliente());
         } catch (Exception e) {
         }
     }
@@ -222,16 +237,39 @@ public class AlugarController {
             FuncionarioDao funcionario = new FuncionarioDao();
             locacao.setFuncionario(funcionario.lerPorId(2));
             Validar.continuar(locacao.getFuncionario().getIdFuncionario());
-            locacao.setVlrTotal(vlrRoupa + vlrTraje);
+            Validar.DOUBLE(jtfDesconto.getText());
+            locacao.setVlrTotal(Double.parseDouble(jtfDesconto.getText()) - vlrRoupa + vlrTraje);
             Validar.Data(jtfData.getText());
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            Date data = formato.parse(jtfData.getText());
+            Date data = null;
+            try {
+                data = formato.parse(jtfData.getText());
+            } catch (ParseException ex) {
+                Logger.getLogger(AlugarController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             locacao.setDataEvento(data);
             locacao.setDataLocacao(Obter.DataAtual());
             LocacaoDao locacaoDao = new LocacaoDao();
-            locacaoDao.cadastrar(locacao);
+            int idlocacao = locacaoDao.cadastrar(locacao);
+            RoupaVendaDao dao = new RoupaVendaDao();
+            for (Roupa roupaTemp : roupasAdicionadas) {
+                RoupaVenda roupaVenda = new RoupaVenda();
+                roupaVenda.setidLocacao(idlocacao);
+                roupaVenda.setIdRoupa(roupaTemp.getIdRoupa());
+                roupaVenda.setTipoDeVenda(0);
+                dao.cadastrar(roupaVenda);
+            }
+            for (Traje trajeTemp : trajesAdicionadas) {
+                RoupaVenda roupaVenda = new RoupaVenda();
+                roupaVenda.setidLocacao(idlocacao);
+                roupaVenda.setIdRoupa(trajeTemp.getIdTraje());
+                roupaVenda.setTipoDeVenda(1);
+                dao.cadastrar(roupaVenda);
+                System.out.println(trajeTemp.getIdTraje());
+            }
+            alugar.dispose();
         } catch (Exception e) {
-            JPane.show.STRING("AVISO!", "Por favor, preencher todos os campos!");
+            JPane.show.STRING("AVISO!", "Por favor, preencher todos os campos corretamente!");
         }
     }
 
@@ -250,4 +288,35 @@ public class AlugarController {
         }
     }
 
+    public void listarNaTabelaDevolucao() {
+        DefaultTableModel model = (DefaultTableModel) tableAluguel.getModel();
+        LocacaoDao locacaoDao = new LocacaoDao();
+        for(int i = 0; model.getRowCount() > i; i++){
+            model.removeRow(i);
+        }
+        for (Locacao locacao : locacaoDao.clientesQueNaoDevolveram()) {
+            Object[] linha = {
+                locacao.getCliente().getNome(),
+                locacao.getDataEvento(),
+                locacao.getDataLocacao(),
+                locacao.getVlrTotal()
+            };
+            devolucoes.add(locacao);
+            model.addRow(linha);
+        }
+    }
+
+    public void selecionouTableDevolucao() {
+        if (tableAluguel.getSelectedRow() >= 0) {
+            Devolucao devolucao = new Devolucao(alugar, true, devolucoes.get(tableAluguel.getSelectedRow()));
+            devolucao.setVisible(true);
+            listarNaTabelaDevolucao();
+        }
+    }
+
+    public void realizarDevolucao(Locacao locacao) {
+             LocacaoDao locacaoDao = new LocacaoDao();
+             locacao.setDataDevolucao(Obter.DataAtual());
+             locacaoDao.alterar(locacao);
+    }
 }
